@@ -163,6 +163,170 @@ nodoListaPelicula* borrarPeliPorId(nodoListaPelicula*listaPelis, int id)
 }
 
 
+//***********************************************************************************************************************************//
+//                                                        TDA Arboles
+//***********************************************************************************************************************************//
+
+
+nodoArbolPelicula * inicArbol()
+{
+    return NULL;
+}
+
+nodoArbolPelicula * crearNodoArbol(stPelicula Pelicula)
+{
+
+    nodoArbolPelicula*Aux = (nodoArbolPelicula*)malloc(sizeof(nodoArbolPelicula));
+    Aux->p=Pelicula;
+    Aux->der=NULL;
+    Aux->izq=NULL;
+    return Aux;
+}
+
+nodoArbolPelicula * insertaNodoArbol(nodoArbolPelicula * Arbol,stPelicula Pelicula)
+{
+
+    if (Arbol==NULL){
+        Arbol=crearNodoArbol(Pelicula);
+    }
+    else{
+        if(Pelicula.idPelicula>Arbol->p.idPelicula){
+            Arbol->der=insertaNodoArbol(Arbol->der,Pelicula);
+        }
+        else{
+            Arbol->izq=insertaNodoArbol(Arbol->izq,Pelicula);
+        }
+    }
+  return Arbol;
+
+}
+
+void preOrder(nodoArbolPelicula*Arbol){
+  if(Arbol!=NULL){
+    printf("\n-------------Titulo: |%s|",Arbol->p.nombrePelicula);
+    printf("\n---------IDPelicula: |%d|",Arbol->p.idPelicula);
+    printf("\n---------------Anio: |%d|",Arbol->p.anio);
+    printf("\n-------------Genero: |%s|",Arbol->p.genero);
+    printf("\n---------Valoracion: |%d|",Arbol->p.valoracion);
+    printf("\n----Para mayores de: |%d|",Arbol->p.pm);
+    printf("\n-----------Director: |%s|",Arbol->p.director);
+    printf("\n---------------Pais: |%s|",Arbol->p.pais);
+    puts("\n");
+    preOrder(Arbol->izq);
+    preOrder(Arbol->der);
+  }
+}
+
+void inOrder(nodoArbolPelicula*Arbol){
+
+  if(Arbol!=NULL){
+    inOrder(Arbol->izq);
+    printf("\n-------------Titulo: |%s|",Arbol->p.nombrePelicula);
+    printf("\n---------IDPelicula: |%d|",Arbol->p.idPelicula);
+    printf("\n---------------Anio: |%d|",Arbol->p.anio);
+    printf("\n-------------Genero: |%s|",Arbol->p.genero);
+    printf("\n---------Valoracion: |%d|",Arbol->p.valoracion);
+    printf("\n----Para mayores de: |%d|",Arbol->p.pm);
+    printf("\n-----------Director: |%s|",Arbol->p.director);
+    printf("\n---------------Pais: |%s|",Arbol->p.pais);
+    puts("\n");
+    inOrder(Arbol->der);
+    }
+
+}
+
+void postOrder(nodoArbolPelicula*Arbol){
+
+  if(Arbol!=NULL){
+    inOrder(Arbol->izq);
+    inOrder(Arbol->der);
+    printf("\n-------------Titulo: |%s|",Arbol->p.nombrePelicula);
+    printf("\n---------IDPelicula: |%d|",Arbol->p.idPelicula);
+    printf("\n---------------Anio: |%d|",Arbol->p.anio);
+    printf("\n-------------Genero: |%s|",Arbol->p.genero);
+    printf("\n---------Valoracion: |%d|",Arbol->p.valoracion);
+    printf("\n----Para mayores de: |%d|",Arbol->p.pm);
+    printf("\n-----------Director: |%s|",Arbol->p.director);
+    printf("\n---------------Pais: |%s|",Arbol->p.pais);
+    puts("\n");
+    }
+
+}
+
+
+nodoArbolPelicula*buscarPeliculaID(nodoArbolPelicula*Arbol,stPelicula Pelicula){
+
+   nodoArbolPelicula*rta=NULL;
+   if(Arbol!=NULL){
+    if(Pelicula.idPelicula==Arbol->p.idPelicula){
+        rta=Arbol;
+    }
+    else{
+        if(Pelicula.idPelicula>Arbol->p.idPelicula){
+            rta=buscarPeliculaID(Arbol->der,Pelicula);
+        }
+        else{
+            rta=buscarPeliculaID(Arbol->izq,Pelicula);
+        }
+    }
+   }
+
+return rta;
+}
+
+/*void ReemplazarNodoArbol(nodoArbolPelicula*Arbol,nodoArbolPelicula*NuevoNodo){
+
+
+   if(Arbol->p=NULL){
+    if(Arbol->p=Arbol->izq->p){
+        Arbol->izq=NuevoNodo;
+    }
+    else if(Arbol->p=Arbol->der->p){
+        Arbol->der=NuevoNodo;
+    }
+   }
+   if(NuevoNodo){
+        NuevoNodo->p=Arbol->p;
+   }
+
+
+}*/
+
+/*nodoArbolPelicula*borrarNodoArbolPeli(nodoArbolPelicula*Arbol,stPelicula P){
+  A=borrarNodoArbolPeli(A,P);
+  if(Arbol!=NULL){
+    if(Arbol->p.idPelicula>P.idPelicula){
+        if(Arbol->izq!=NULL){
+            nodoArbolPelicula*masDer=masDer
+        }
+    }
+  }
+
+
+}
+*/
+/*void borrar(tarbol **a, int elem)
+{
+  void sustituir(tarbol **a, tarbol **aux);
+  tarbol *aux;
+
+  if (*a == NULL) /* no existe la clave */
+/*    return;
+
+  if ((*a)->clave < elem) borrar(&(*a)->der, elem);
+  else if ((*a)->clave > elem) borrar(&(*a)->izq, elem);
+  else if ((*a)->clave == elem) {
+    aux = *a;
+    if ((*a)->izq == NULL) *a = (*a)->der;
+    else if ((*a)->der == NULL) *a = (*a)->izq;
+    else sustituir(&(*a)->izq, &aux); /* se sustituye por
+      la mayor de las menores */
+
+/*    free(aux);
+  }
+}
+*/
+
 
 //***********************************************************************************************************************************//
 //                                                        FUNCIONES PARA PELICULAS

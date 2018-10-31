@@ -61,4 +61,15 @@ void imprimirNodoPelis(nodoListaPelicula* nodoPeli);
 void mostrarNodoPelis(nodoListaPelicula* listaPelis);
 nodoListaPelicula* borrarPeliPorId(nodoListaPelicula*listaPelis, int id);
 
+
+// ***** FUNCIONES DE ARBOLES ******
+nodoArbolPelicula * inicArbol();
+nodoArbolPelicula * crearNodoArbol(stPelicula Pelicula);
+nodoArbolPelicula * insertaNodoArbol(nodoArbolPelicula * Arbol,stPelicula Pelicula);
+void preOrder(nodoArbolPelicula*Arbol);
+void inOrder(nodoArbolPelicula*Arbol);
+void postOrder(nodoArbolPelicula*Arbol);
+nodoArbolPelicula*buscarPeliculaID(nodoArbolPelicula*Arbol,stPelicula Pelicula);
+nodoArbolPelicula*borrarNodoArbolPeli(nodoArbolPelicula*Arbol,stPelicula P);
+
 #endif // PELICULAS_H_INCLUDED
