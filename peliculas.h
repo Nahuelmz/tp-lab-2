@@ -42,9 +42,11 @@ void insertar(stPelicula array[], int i);
 int cargarArrayPeliculas(char archiPeli[], stPelicula array[]);
 void ordenarGenero (char archiPeli[]);
 void ordenarTitulo(char archiPeli[]);
-int verPelicula(char archiPeli[]);
 void ordenacionSeleccion(stPelicula array[], int validos);
 int posicionMenor(stPelicula array[], int pos, int validos);
+// ***** FUNCIONES TP2 ******
+stPelicula verPelicula();
+int buscarPelixNombre(char PeliBuscada[]);
 
 // FUNCIONES AUXILIARES //
 void mostrarArrayPeliculas(stPelicula array[], int validos); // Usada para ver por pantalla y verificar el funcionamiento de funciones
@@ -71,5 +73,7 @@ void inOrder(nodoArbolPelicula*Arbol);
 void postOrder(nodoArbolPelicula*Arbol);
 nodoArbolPelicula*buscarPeliculaID(nodoArbolPelicula*Arbol,stPelicula Pelicula);
 nodoArbolPelicula*borrarNodoArbolPeli(nodoArbolPelicula*Arbol,stPelicula P);
+
+// ***** FUNCIONES TP2 ******
 
 #endif // PELICULAS_H_INCLUDED

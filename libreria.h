@@ -4,6 +4,7 @@
 char archiUsu[20]="usuarios.dat";
 char archiPeli[20]="peliculas.bin";
 const char archiPelisUsu[20]="pelisxusu.dat";
+nodoArbolPelicula ArbolPelis;
 
 
 // ***** ESTRUCTURAS BASICAS *****
@@ -99,7 +100,7 @@ int validarUserExiste(char archiUsu[], char nombreUsuario[]); // Chequea si el n
 //int validarTipoChar(char cadena[]);  // Devuelve 1 si el parámetro pasado es cadena de caracteres, 0 si no lo es
 int validacionPass(stCelda arregloUsuActivos[], char nombre[], char pass[]); // //Funcion de validacion de password ingresado por usuario a traves de desencriptacion de matriz codificada - Retorna true or false
 int validacionPassAdmin(char pass[]);//No se pasa por parametro el nombre del administrador ya que estos poseen un solo nombre de usuario - Funcion de validacion de password ingresado por administrador a traves de desencriptacion de matriz codificada - Retorna true or false
-int validarPeliExiste(char archiPeli[], char nombrePelicula[]);
+int validarPeliExiste(char nombrePeli[]);
 
 
 // FUNCIONES DE SUBMENUES // Menu principal en main

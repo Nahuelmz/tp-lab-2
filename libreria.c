@@ -13,7 +13,7 @@ stCelda*arregloUsuInactivos;
 // FUNCIONES VALE TP 2*******************************************************************************************************************************************************************
 
 
-void cargaInicial()
+void cargaInicial()//le agregagria retornor para verificar carga correcta
 {
 
 int cantActivosIniciales=0; //Ver con profe donde va
@@ -2080,7 +2080,7 @@ int validacionPassAdmin(char pass[]) ///No se pasa por parametro el nombre del a
     return coincidencia;
 }
 
-int validarPeliExiste(char archiPeli[], char nombrePelicula[]) // Valida si el nombre del usuario ingresado actualmente ya existe en el archivo
+int validarPeliExiste(char nombrePelicula[]) // Valida si el nombre del usuario ingresado actualmente ya existe en el archivo
 {
     stPelicula peliAux; // Se crea estructura auxiliar para trabajo temporal
     int flag=0;

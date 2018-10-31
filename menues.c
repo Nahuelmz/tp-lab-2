@@ -29,7 +29,7 @@ void loguinadm()
     login=validacionPassAdmin(passaux);
     if(login==1)
     {
-        menuAdmin(archiUsu, archiPeli);
+        menuAdmin();
     }
     else
     {
@@ -99,7 +99,7 @@ void menuUsuario(char nombreUsuario[])
             break;
 
         case 1:
-            consultaUsuario(archiUsu, nombreUsuario);
+            consultaUsuario(arregloUsuActivos, nombreUsuario);
             repetir=1;
             break;
 
@@ -108,10 +108,10 @@ void menuUsuario(char nombreUsuario[])
             break;
 
         case 3:
-            id=verPelicula(archiPeli);
-            if(id!=0)
+            stPelicula auxPeli=verPelicula(); ///Revisar funciones ABM peliculas
+            if(auxPeli)
             {
-                cargarIdPeliAUser(id, nombreUsuario, archiUsu);
+                cargarPeliAUser(arregloUsuActivos, nombreUsuario, crearNodoPeli(auxPeli)); ///Verificar validaciones
             }
             repetir=1;
             break;
@@ -128,7 +128,7 @@ void menuUsuario(char nombreUsuario[])
 }
 
 
-void menuAdmin(char archiUsu[], char archiPeli[])
+void menuAdmin()
 {
 
     int opcion=0,repetir=0;
@@ -154,12 +154,12 @@ void menuAdmin(char archiUsu[], char archiPeli[])
             break;
 
         case 1:
-            menuAdminPelis(archiPeli);
+            menuAdminPelis();
             repetir=1;
             break;
 
         case 2:
-            menuAdminUsuarios(archiUsu);
+            menuAdminUsuarios();
             repetir=1;
             break;
 
@@ -171,7 +171,7 @@ void menuAdmin(char archiUsu[], char archiPeli[])
 }
 
 
-void menuAdminPelis(char archiUsu[])
+void menuAdminPelis()
 {
 
     int opcion=0,repetir=0;
@@ -200,22 +200,22 @@ void menuAdminPelis(char archiUsu[])
             break;
 
         case 1:
-            altaPelicula(archiPeli);
+            altaPelicula();
             repetir=1;
             break;
 
         case 2:
-            bajaPelicula(archiPeli);
+            bajaPelicula();
             repetir=1;
             break;
 
         case 3:
-            mostrarPeliParaModif(archiPeli);
+            mostrarPeliParaModif();
             repetir=1;
             break;
 
         case 4:
-            consultaPeliAdmin(archiPeli);
+            consultaPeliAdmin();
             repetir=1;
             break;
 
@@ -231,7 +231,7 @@ void menuAdminPelis(char archiUsu[])
     while(repetir==1);
 }
 
-void menuAdminUsuarios(char archiUsu[])
+void menuAdminUsuarios()
 {
 
     int opcion=0, repetir=0;
@@ -260,27 +260,27 @@ void menuAdminUsuarios(char archiUsu[])
             break;
 
         case 1:
-            altaUsuario(archiUsu, arregloUsuActivos);
+            altaUsuario();
             repetir=1;
             break;
 
         case 2:
-            bajaUsuario(archiUsu);
+            bajaUsuario();
             repetir=1;
             break;
 
         case 3:
-            mostrarUserParaModif(archiUsu);
+            mostrarUserParaModif();
             repetir=1;
             break;
 
         case 4:
-            consultaUsuarioAdmin(archiUsu);
+            consultaUsuarioAdmin();
             repetir=1;
             break;
 
         case 5:
-            listadoUsuarios(archiUsu);
+            listadoUsuarios();
             repetir=1;
             break;
 
@@ -314,14 +314,14 @@ void subMenuListados()
 
         case 1:
 
-            ordenarTitulo(archiPeli);
+            ordenarTitulo();
             printf("\n\t Desea ver otro listado? s/n : \n");
             scanf("%c", &control);
             break;
 
         case 2:
 
-            ordenarGenero(archiPeli);
+            ordenarGenero();
             printf("\n\t Desea ver otro listado? s/n : \n");
             scanf("%c", &control);
             break;
@@ -333,7 +333,7 @@ void subMenuListados()
 }
 
 
-int menumodif(char archiUsu[])//Menu para administrador para seleccion de campo a modificar
+int menumodif()//Menu para administrador para seleccion de campo a modificar
 {
     int resp;
 
@@ -351,7 +351,7 @@ int menumodif(char archiUsu[])//Menu para administrador para seleccion de campo 
     return resp;
 }
 
-int menuModifPelis(char archiPeli[])//Menu para administrador para seleccion de campo a modificar
+int menuModifPelis()//Menu para administrador para seleccion de campo a modificar
 {
     int resp;
 
