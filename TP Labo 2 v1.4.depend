@@ -1,0 +1,39 @@
+# depslib dependency file v1.0
+1540838410 source:c:\users\arte1\downloads\tp labo 2 v1.2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"libreria.h"
+	"strings.h"
+	"ctype.h"
+	<conio.h>
+
+1540923363 c:\users\arte1\downloads\tp labo 2 v1.2\libreria.h
+
+1540938741 source:c:\users\valeria\desktop\tp\tp labo 2 v1.3\main.c
+	<stdio.h>
+	<stdlib.h>
+	"libreria.h"
+	"strings.h"
+	"ctype.h"
+	<conio.h>
+
+1540941990 c:\users\valeria\desktop\tp\tp labo 2 v1.3\libreria.h
+
+1540974604 source:c:\users\arte1\downloads\1.4\main.c
+	<stdio.h>
+	<stdlib.h>
+	"libreria.h"
+	"strings.h"
+	"ctype.h"
+	<conio.h>
+
+1540974604 c:\users\arte1\downloads\1.4\libreria.h
+
+1540974604 source:c:\users\arte1\downloads\1.4\peliculas.c
+	<stdio.h>
+	<stdlib.h>
+	"libreria.h"
+	"string.h"
+	"ctype.h"
+	<conio.h>
+
