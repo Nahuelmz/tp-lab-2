@@ -1,26 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "libreria.h"
-#include "string.h"
+#include "usuarios.h"
+#include "strings.h"
 #include "ctype.h"
 #include <conio.h>
+#include "peliculas.h"
 
 
-stCelda*arregloUsuActivos;
-stCelda*arregloUsuInactivos;
+//char archiUsu[20]="usuarios.dat";
+
 
 
 // FUNCIONES VALE TP 2*******************************************************************************************************************************************************************
 
+stCelda*arregloUsuActivos;
+stCelda*arregloUsuInactivos;
 
 void cargaInicial()
 {
 
-int cantActivosIniciales=0; //Ver con profe donde va
-    cantActivosIniciales=cargarArchivoUsuariosActivosToArreglo(archiUsu,arregloUsuActivos);
-    cargarArchivoUsuariosInactivosToArreglo(archiUsu, arregloUsuInactivos);
+nodoListaPelicula*listaPelis=inicLista();
+//listaPelis=crearNodoPeli(      );
 
 
+///Ver con profe donde van estas variables y arreglos
+
+int cantUsuActivosIniciales = cargarArchivoUsuariosActivosToArreglo(archiUsu, arregloUsuActivos);
+int cantUsuInactivosIniciales = cargarArchivoUsuariosInactivosToArreglo(archiUsu, arregloUsuInactivos);
+
+printf("Se cargaron %i usuarios activos ", cantUsuActivosIniciales);
+printf("Se cargaron %i usuarios inactivos ", cantUsuActivosIniciales);
 
 
 }
@@ -28,8 +37,8 @@ int cantActivosIniciales=0; //Ver con profe donde va
 int cantUsuariosActivos(char archiUsu[])
 {
 
-    int cantUsuarios=0;
-    stCelda aux;
+    int cantUsuarios=0; // En esta variable se almacenará la cantidad de usuarios activos y será retornada por la función
+    stCelda aux; //Creo celda auxiliar para la carga y el conteo de usuarios activos
 
     FILE*archi;
 
@@ -58,7 +67,7 @@ int cantUsuariosInactivos(char archiUsu[])
 {
 
     int cantUsuarios=0;
-    stCelda aux;
+    stCelda aux; // Creo celda auxiliar para la carga y el conteo de usuarios inactivos
 
     FILE*archi;
 
@@ -83,7 +92,7 @@ int cantUsuariosInactivos(char archiUsu[])
 }
 
 
-int cantUsuariosTotales(char archiUsu[])
+int cantUsuariosTotales(char archiUsu[]) // Función utilizada para contar la cantidad total de registros guardados en el archivo
 {
 
     int cantUsuarios=0;
@@ -117,23 +126,23 @@ int cantUsuariosTotales(char archiUsu[])
 }
 
 
-int cargarArchivoUsuariosActivosToArreglo(char archiUsu[], stCelda*arregloUsuActivos)
+int cargarArchivoUsuariosActivosToArreglo(char archiUsu[], stCelda*arregloUsuActivos) // Función que carga los usuarios activos del archivo en el arreglo dinámico correspondiente
 {
-    int i=0;
-    int dim=cantUsuariosActivos(archiUsu);
-    stUsuario aux;
+    int i=0; // Variable que itera y cuenta cantidad de registros pasados del archivo al arreglo
+    int dim=cantUsuariosActivos(archiUsu); // Cuenta la cantidad de usuarios activos en archivo para crear ínicialmente el arreglo dinámico
+    stUsuario aux; // Estructura que contiene a los datos de cada usuario(sin puntero a lista, la que lo incluye es stCelda)
 
 //    stCelda*arregloUsuActivos=NULL; // Inicializo a Null para dejarlo en limpio -- PASADA al main
 
-    arregloUsuActivos=(stCelda*)malloc(sizeof(stCelda)*dim);
+    arregloUsuActivos=malloc((sizeof(stCelda))*dim); // Reserva en memoria espacio del tamaño de dim*stCelda para el arreglo dinámico de usuarios activos
 
-    if(arregloUsuActivos==NULL)
+    if(arregloUsuActivos==NULL) // Si no existe espacio de almacenamiento suficiente, el programa se cierra
     {
         puts("No se puede continuar por error de asignacion de memoria");
         exit(-1);
     }
 
-    else
+    else // Si existe memoria disponible, avanza en la ejecución
     {
         FILE*archi;
 
@@ -153,35 +162,35 @@ int cargarArchivoUsuariosActivosToArreglo(char archiUsu[], stCelda*arregloUsuAct
             }
             fclose(archi);
         }
+
         else
         {
             printf("No se pudo abrir el archivo de usuarios");
         }
     }
-    return i; //Retorna usuarios activos pasados al arreglo en primera instancia
+    return i; //Retorna usuarios activos pasados al arreglo en primera instancia, es decir cuando se abre el programa
 }
 
 
-stCelda* cargarArchivoUsuariosInactivosToArreglo(char archiUsu[])
+int cargarArchivoUsuariosInactivosToArreglo(char archiUsu[], stCelda*arregloUsuInactivos) // Función que carga los usuarios inactivos del archivo en el arreglo dinámico correspondiente
 {
 
-    int i=0;
-    int dim=cantUsuariosInactivos(archiUsu);
-    stCelda aux;
+    int i=0; // Variable que itera y cuenta cantidad de registros pasados del archivo al arreglo
+    int dim=cantUsuariosInactivos(archiUsu); // Cuenta la cantidad de usuarios activos en archivo para crear ínicialmente el arreglo dinámico
+    stUsuario aux; // Estructura que contiene a los datos de cada usuario(sin puntero a lista, la que lo incluye es stCelda)
 
-//    stCelda*arregloUsuInactivos=NULL; // Inicializo a Null para dejarlo en limpio -- Pasada al main
+///    stCelda*arregloUsuInactivos=NULL; // Inicializo a Null para dejarlo en limpio -- Pasada al main
 
-    stCelda * arregloUsuInactivos= malloc(sizeof(stCelda)*dim);
+    arregloUsuInactivos=malloc((sizeof(stCelda))*dim); // Reserva en memoria espacio del tamaño de dim*stCelda para el arreglo dinámico de usuarios inactivos
 
-    if(arregloUsuInactivos==NULL)
+    if(arregloUsuInactivos==NULL) // Si no existe espacio de almacenamiento suficiente, el programa se cierra
     {
         puts("No se puede continuar por error de asignacion de memoria");
         exit(-1);
     }
 
-    else
+    else // Si existe memoria disponible, avanza en la ejecución
     {
-
         FILE*archi;
 
         archi=fopen(archiUsu, "rb");
@@ -189,19 +198,14 @@ stCelda* cargarArchivoUsuariosInactivosToArreglo(char archiUsu[])
         if(archi)
         {
 
-            while(!feof(archi) && i<dim)
+            while(fread(&aux, sizeof(stUsuario), 1, archi)>0)
             {
-                fread(&aux, sizeof(stCelda), 1, archi);
-                if(!feof(archi))
+                if(aux.eliminado==1)
                 {
-                    fread(&aux, sizeof(stCelda), 1, archi);
-                    if(aux.usr.eliminado==1)
-                    {
-                        arregloUsuInactivos[i]=aux;
-                        arregloUsuInactivos[i].listaPelis=inicLista();
-                    }
+                    arregloUsuInactivos[i].usr=aux;
+                    arregloUsuInactivos[i].listaPelis=inicLista();
+                    i++;
                 }
-                i++;
             }
             fclose(archi);
         }
@@ -211,7 +215,7 @@ stCelda* cargarArchivoUsuariosInactivosToArreglo(char archiUsu[])
             printf("No se pudo abrir el archivo de usuarios");
         }
     }
-    return arregloUsuInactivos;
+    return i; //Retorna usuarios inactivos pasados al arreglo en primera instancia, es decir cuando se abre el programa
 }
 
 
@@ -228,7 +232,7 @@ void altaUsuario(char archiUsu[], stCelda arregloUsuActivos[]) // Funcion genera
     int usuarioExiste=0;
     int longPass=0;
     int i=0;
-    int tamanioArray=0;
+    int cantUsuAct=0;
     long cantReg=0;
     char passAux[11];
     char control='s'; // Variable de control para ciclo while principal de solicitud de datos de usuarios
@@ -338,10 +342,12 @@ void altaUsuario(char archiUsu[], stCelda arregloUsuActivos[]) // Funcion genera
         usuAux.admin=0; // Por defecto NO es administrador
 
 
-        usuAux.idUsuario=cantUsuariosTotales(archiUsu)+1; ///CHEQUEAR COMO FUNCIONA
+        usuAux.idUsuario= cantUsuariosTotales(archiUsu) + 1; ///CHEQUEAR COMO FUNCIONA
 
 
         // ver como se usa realloc
+
+
 
         tamanioArray=calcularTamanioArrayUsuarios(arregloUsuActivos); ///Reemplazar funcion con la de Nahuel
 

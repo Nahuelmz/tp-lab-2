@@ -25,6 +25,7 @@ typedef struct stCelda
     nodoListaPelicula * listaPelis;
 } stCelda;
 
+void cargaInicial();
 
 // FUNCIONES QUE TRABAJAN SOBRE USUARIOS
 void altaUsuario(char archiUsu[], stCelda arregloUsuActivos[]); // Da de alta a nuevos usuarios, invocando a las funciones pedidoDatosUsuario, validarUserExiste, AsignarId
@@ -59,8 +60,7 @@ int cantUsuariosActivos(char archiUsu[]);
 int cantUsuariosInctivos(char archiUsu[]);
 int cantUsuariosTotales(char archiUsu[]);
 int cargarArchivoUsuariosActivosToArreglo(char archiUsu[], stCelda*);
-stCelda* cargarArchivoUsuariosInactivosToArreglo(char archiUsu[]);
-int calcularTamanioArrayUsuarios(stCelda arreglo[]);
+int cargarArchivoUsuariosInactivosToArreglo(char archiUsu[], stCelda*);
 
 
 #endif // USUARIOS_H_INCLUDED
