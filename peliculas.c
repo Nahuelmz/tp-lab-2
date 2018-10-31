@@ -186,92 +186,108 @@ nodoArbolPelicula * crearNodoArbol(stPelicula Pelicula)
 nodoArbolPelicula * insertaNodoArbol(nodoArbolPelicula * Arbol,stPelicula Pelicula)
 {
 
-    if (Arbol==NULL){
+    if (Arbol==NULL)
+    {
         Arbol=crearNodoArbol(Pelicula);
     }
-    else{
-        if(Pelicula.idPelicula>Arbol->p.idPelicula){
+    else
+    {
+        if(Pelicula.idPelicula>Arbol->p.idPelicula)
+        {
             Arbol->der=insertaNodoArbol(Arbol->der,Pelicula);
         }
-        else{
+        else
+        {
             Arbol->izq=insertaNodoArbol(Arbol->izq,Pelicula);
         }
     }
-  return Arbol;
+    return Arbol;
 
 }
 
-void preOrder(nodoArbolPelicula*Arbol){
-  if(Arbol!=NULL){
-    printf("\n-------------Titulo: |%s|",Arbol->p.nombrePelicula);
-    printf("\n---------IDPelicula: |%d|",Arbol->p.idPelicula);
-    printf("\n---------------Anio: |%d|",Arbol->p.anio);
-    printf("\n-------------Genero: |%s|",Arbol->p.genero);
-    printf("\n---------Valoracion: |%d|",Arbol->p.valoracion);
-    printf("\n----Para mayores de: |%d|",Arbol->p.pm);
-    printf("\n-----------Director: |%s|",Arbol->p.director);
-    printf("\n---------------Pais: |%s|",Arbol->p.pais);
-    puts("\n");
-    preOrder(Arbol->izq);
-    preOrder(Arbol->der);
-  }
+void preOrder(nodoArbolPelicula*Arbol)
+{
+    if(Arbol!=NULL)
+    {
+        printf("\n-------------Titulo: |%s|",Arbol->p.nombrePelicula);
+        printf("\n---------IDPelicula: |%d|",Arbol->p.idPelicula);
+        printf("\n---------------Anio: |%d|",Arbol->p.anio);
+        printf("\n-------------Genero: |%s|",Arbol->p.genero);
+        printf("\n---------Valoracion: |%d|",Arbol->p.valoracion);
+        printf("\n----Para mayores de: |%d|",Arbol->p.pm);
+        printf("\n-----------Director: |%s|",Arbol->p.director);
+        printf("\n---------------Pais: |%s|",Arbol->p.pais);
+        puts("\n");
+        preOrder(Arbol->izq);
+        preOrder(Arbol->der);
+    }
 }
 
-void inOrder(nodoArbolPelicula*Arbol){
+void inOrder(nodoArbolPelicula*Arbol)
+{
 
-  if(Arbol!=NULL){
-    inOrder(Arbol->izq);
-    printf("\n-------------Titulo: |%s|",Arbol->p.nombrePelicula);
-    printf("\n---------IDPelicula: |%d|",Arbol->p.idPelicula);
-    printf("\n---------------Anio: |%d|",Arbol->p.anio);
-    printf("\n-------------Genero: |%s|",Arbol->p.genero);
-    printf("\n---------Valoracion: |%d|",Arbol->p.valoracion);
-    printf("\n----Para mayores de: |%d|",Arbol->p.pm);
-    printf("\n-----------Director: |%s|",Arbol->p.director);
-    printf("\n---------------Pais: |%s|",Arbol->p.pais);
-    puts("\n");
-    inOrder(Arbol->der);
+    if(Arbol!=NULL)
+    {
+        inOrder(Arbol->izq);
+        printf("\n-------------Titulo: |%s|",Arbol->p.nombrePelicula);
+        printf("\n---------IDPelicula: |%d|",Arbol->p.idPelicula);
+        printf("\n---------------Anio: |%d|",Arbol->p.anio);
+        printf("\n-------------Genero: |%s|",Arbol->p.genero);
+        printf("\n---------Valoracion: |%d|",Arbol->p.valoracion);
+        printf("\n----Para mayores de: |%d|",Arbol->p.pm);
+        printf("\n-----------Director: |%s|",Arbol->p.director);
+        printf("\n---------------Pais: |%s|",Arbol->p.pais);
+        puts("\n");
+        inOrder(Arbol->der);
     }
 
 }
 
-void postOrder(nodoArbolPelicula*Arbol){
+void postOrder(nodoArbolPelicula*Arbol)
+{
 
-  if(Arbol!=NULL){
-    inOrder(Arbol->izq);
-    inOrder(Arbol->der);
-    printf("\n-------------Titulo: |%s|",Arbol->p.nombrePelicula);
-    printf("\n---------IDPelicula: |%d|",Arbol->p.idPelicula);
-    printf("\n---------------Anio: |%d|",Arbol->p.anio);
-    printf("\n-------------Genero: |%s|",Arbol->p.genero);
-    printf("\n---------Valoracion: |%d|",Arbol->p.valoracion);
-    printf("\n----Para mayores de: |%d|",Arbol->p.pm);
-    printf("\n-----------Director: |%s|",Arbol->p.director);
-    printf("\n---------------Pais: |%s|",Arbol->p.pais);
-    puts("\n");
+    if(Arbol!=NULL)
+    {
+        inOrder(Arbol->izq);
+        inOrder(Arbol->der);
+        printf("\n-------------Titulo: |%s|",Arbol->p.nombrePelicula);
+        printf("\n---------IDPelicula: |%d|",Arbol->p.idPelicula);
+        printf("\n---------------Anio: |%d|",Arbol->p.anio);
+        printf("\n-------------Genero: |%s|",Arbol->p.genero);
+        printf("\n---------Valoracion: |%d|",Arbol->p.valoracion);
+        printf("\n----Para mayores de: |%d|",Arbol->p.pm);
+        printf("\n-----------Director: |%s|",Arbol->p.director);
+        printf("\n---------------Pais: |%s|",Arbol->p.pais);
+        puts("\n");
     }
 
 }
 
 
-nodoArbolPelicula*buscarPeliculaID(nodoArbolPelicula*Arbol,stPelicula Pelicula){
+nodoArbolPelicula*buscarPeliculaID(nodoArbolPelicula*Arbol,int id)
+{
 
-   nodoArbolPelicula*rta=NULL;
-   if(Arbol!=NULL){
-    if(Pelicula.idPelicula==Arbol->p.idPelicula){
-        rta=Arbol;
-    }
-    else{
-        if(Pelicula.idPelicula>Arbol->p.idPelicula){
-            rta=buscarPeliculaID(Arbol->der,Pelicula);
+    nodoArbolPelicula*rta=NULL;
+    if(Arbol!=NULL)
+    {
+        if(Arbol->p.idPelicula==id)
+        {
+            rta=Arbol;
         }
-        else{
-            rta=buscarPeliculaID(Arbol->izq,Pelicula);
+        else
+        {
+            if(Arbol->p.idPelicula>id)
+            {
+                rta=buscarPeliculaID(Arbol->der,id);
+            }
+            else
+            {
+                rta=buscarPeliculaID(Arbol->izq,id);
+            }
         }
     }
-   }
 
-return rta;
+    return rta;
 }
 
 /*void ReemplazarNodoArbol(nodoArbolPelicula*Arbol,nodoArbolPelicula*NuevoNodo){
@@ -332,7 +348,7 @@ return rta;
 //                                                        FUNCIONES PARA PELICULAS
 //***********************************************************************************************************************************//
 
-void altaPelicula(char archiPeli[]) // Funcion general de alta de películas
+void altaPelicula() // Funcion general de alta de películas
 {
     // Declaración de variables locales
     int validacionPais=0;
@@ -344,138 +360,124 @@ void altaPelicula(char archiPeli[]) // Funcion general de alta de películas
     char control='s'; // Variable de control para ciclo while principal de solicitud de los datos de peliculas
     stPelicula peliAux; // Se crea estructura auxiliar para trabajo temporal
 
-    FILE *archi; // Asigna espacio en buffer para almacenar temporariamente los datos en proceso mientras se pasa de la memoria al archivo
+    system("cls"); // Limpio pantalla
+    printf("\n");
+    printf("\n*****************************************************");
+    printf("\n\t\tALTA DE PELICULAS");
+    printf("\n*****************************************************");
+    printf("\n");
 
-    archi=fopen(archiPeli, "a+b"); //Se chequea el acceso al archivo bajo la modalidad lectura-escritura
-
-    if(archi==NULL) // Chequea si se puede abrir el archivo usando sólo lectura
+    while(control=='s')
     {
-        printf("\nNo se pudo abrir el archivo");
-        exit(1); // Sale del programa si no se pudo abrir el archivo
-    }
 
-    else
-    {
-        system("cls"); // Limpio pantalla
-        printf("\n");
-        printf("\n*****************************************************");
-        printf("\n\t\tALTA DE PELICULAS");
-        printf("\n*****************************************************");
-        printf("\n");
+        printf("Ingrese el nombre de la pelicula: ");
+        fflush(stdin);
+        gets(peliAux.nombrePelicula);
+        peliculaExiste=validarPeliExiste(peliAux.nombrePelicula); // Chequea que el nombre de la pelicula en cuestión no exista en el archivo para evitar que se duplique mediante un flag
 
-        while(control=='s')
+        if(!peliculaExiste)
         {
-
-            printf("Ingrese el nombre de la pelicula: ");
+            printf("Ya existe una pelicula con ese nombre, desea continuar intentandolo(s/n)?\n");
             fflush(stdin);
             gets(peliAux.nombrePelicula);
-            peliculaExiste=validarPeliExiste(archiPeli, peliAux.nombrePelicula); // Chequea que el nombre de la pelicula en cuestión no exista en el archivo para evitar que se duplique mediante un flag
 
-            if(peliculaExiste!=0)
+            while((peliculaExiste!=0) && (i<3))
             {
-                printf("Ya existe una pelicula con ese nombre, desea continuar intentandolo(s/n)?\n");
+                printf("Ingrese el nombre de la pelicula nuevamente: ");
                 fflush(stdin);
                 gets(peliAux.nombrePelicula);
-
-                while((peliculaExiste!=0) && (i<3))
-                {
-                    printf("Ingrese el nombre de la pelicula nuevamente: ");
-                    fflush(stdin);
-                    gets(peliAux.nombrePelicula);
-                    peliculaExiste=validarPeliExiste(archiPeli, peliAux.nombrePelicula); // Chequea que el nombre de usuario en ingreso no exista en el archivo para evitar que se duplique mediante un flag
-                    i++;
-                }
-                if(peliculaExiste!=0)
-                {
-                    printf("\nHa superado los 4 intentos, vuelva a probar mas tarde");
-                    exit(1);
-                }
-                else
-                {
-                    printf("El ingreso ha sido exitoso\n");
-                }
+                peliculaExiste=validarPeliExiste(archiPeli, peliAux.nombrePelicula); // Chequea que el nombre de usuario en ingreso no exista en el archivo para evitar que se duplique mediante un flag
+                i++;
             }
-
-            do
+            if(peliculaExiste!=0)
             {
-                printf("Ingrese el nombre del director de la pelicula(Solo caracteres): ");
-                fflush(stdin);
-                gets(peliAux.director);
-                validacionDirector=validarTipoChar(peliAux.director);
-            }
-            while(validacionDirector!=0);
-
-            do
-            {
-                printf("Ingrese el genero(Solo caracteres): ");
-                fflush(stdin);
-                gets(peliAux.genero);
-                validacionGenero=validarTipoChar(peliAux.genero);
-            }
-            while(validacionGenero!=0);
-
-            do
-            {
-                printf("Ingrese el pais(Solo caracteres): ");
-                fflush(stdin);
-                gets(peliAux.pais);
-                validacionPais=validarTipoChar(peliAux.pais);
-            }
-            while(validacionPais!=0);
-
-            do
-            {
-                printf("Ingrese el anio: ");
-                scanf("%i", &peliAux.anio);
-            }
-            while(peliAux.anio<1895 || peliAux.anio>2018);
-
-            do
-            {
-                printf("Ingrese la valoracion(Escala del 1 al 5: 1 pesima - 5 excelente): ");
-                scanf("%i", &peliAux.valoracion);
-            }
-            while((peliAux.valoracion<0) || (peliAux.valoracion>5));
-
-            do
-            {
-                printf("Ingrese la categoria de la pelicula(0 si es ATP - 13 si es para mayores de 13 anios - 16 y 18 respectivamente): ");
-                scanf("%i", &peliAux.pm);
-            }
-            while(peliAux.pm<0 || peliAux.pm>18);
-
-            fseek(archi, 0, 2); // Se lleva el cursor al final del archivo para calcular desde ahí el peso del mismo
-
-            if(ftell(archi)==0) // Si el tamaño del archivo en bytes es igual a 0, es decir si existe pero no tiene informacion
-            {
-                peliAux.idPelicula=1; // Se le asigna el valor 1 al primer registro
+                printf("\nHa superado los 4 intentos, vuelva a probar mas tarde");
+                exit(1);
             }
             else
             {
-                cantReg=(ftell(archi)/sizeof(stPelicula)); // Se calcula cuantos registros hay dividiendo el tamñao del archivo por el tamaño de la estructura
-                peliAux.idPelicula=cantReg+1; // Se le asigna el ID al usuario en ingreso agregandole 1 la cantidad actual de registros
-            }
-
-            peliAux.eliminado=0; // Se asigna negativo como valor predeterminado
-
-            fwrite(&peliAux, sizeof(stPelicula), 1, archi); // Se graba los datos capturados en el archivo
-
-            printf("Desea continuar ingresando peliculas(s/n?"); // Se consulta si se desea continuar ingresando usuarios en esta sesión
-            fflush(stdin);
-            scanf("%c", &control);
-
-            if(control=='s')
-            {
-                system("cls"); // Inicia nueva pantalla de carga de peliculas
-                puts("****** ALTA DE OTRA PELICULA ******\n");
+                printf("El ingreso ha sido exitoso\n");
             }
         }
-        fclose(archi); // Cierre del archivo
+
+        do
+        {
+            printf("Ingrese el nombre del director de la pelicula(Solo caracteres): ");
+            fflush(stdin);
+            gets(peliAux.director);
+            validacionDirector=validarTipoChar(peliAux.director);
+        }
+        while(validacionDirector!=0);
+
+        do
+        {
+            printf("Ingrese el genero(Solo caracteres): ");
+            fflush(stdin);
+            gets(peliAux.genero);
+            validacionGenero=validarTipoChar(peliAux.genero);
+        }
+        while(validacionGenero!=0);
+
+        do
+        {
+            printf("Ingrese el pais(Solo caracteres): ");
+            fflush(stdin);
+            gets(peliAux.pais);
+            validacionPais=validarTipoChar(peliAux.pais);
+        }
+        while(validacionPais!=0);
+
+        do
+        {
+            printf("Ingrese el anio: ");
+            scanf("%i", &peliAux.anio);
+        }
+        while(peliAux.anio<1895 || peliAux.anio>2018);
+
+        do
+        {
+            printf("Ingrese la valoracion(Escala del 1 al 5: 1 pesima - 5 excelente): ");
+            scanf("%i", &peliAux.valoracion);
+        }
+        while((peliAux.valoracion<0) || (peliAux.valoracion>5));
+
+        do
+        {
+            printf("Ingrese la categoria de la pelicula(0 si es ATP - 13 si es para mayores de 13 anios - 16 y 18 respectivamente): ");
+            scanf("%i", &peliAux.pm);
+        }
+        while(peliAux.pm<0 || peliAux.pm>18);
+
+        fseek(archi, 0, 2); // Se lleva el cursor al final del archivo para calcular desde ahí el peso del mismo
+
+        if(ftell(archi)==0) // Si el tamaño del archivo en bytes es igual a 0, es decir si existe pero no tiene informacion
+        {
+            peliAux.idPelicula=1; // Se le asigna el valor 1 al primer registro
+        }
+        else
+        {
+            cantReg=(ftell(archi)/sizeof(stPelicula)); // Se calcula cuantos registros hay dividiendo el tamñao del archivo por el tamaño de la estructura
+            peliAux.idPelicula=cantReg+1; // Se le asigna el ID al usuario en ingreso agregandole 1 la cantidad actual de registros
+        }
+
+        peliAux.eliminado=0; // Se asigna negativo como valor predeterminado
+
+        insertaNodoArbol(ArbolPelis, peliAux);///Se agrega peli al arbol
+
+        printf("Desea continuar ingresando peliculas(s/n?"); // Se consulta si se desea continuar ingresando usuarios en esta sesión
+        fflush(stdin);
+        scanf("%c", &control);
+
+        if(control=='s')
+        {
+            system("cls"); // Inicia nueva pantalla de carga de peliculas
+            puts("****** ALTA DE OTRA PELICULA ******\n");
+        }
     }
 }
 
 
-void bajaPelicula(char archiPeli[])//Elimina peliculas pasando usuario.eliminado a valor verdadero
+void bajaPelicula()//Elimina peliculas pasando usuario.eliminado a valor verdadero
 {
     char control='n';
     int idPeli=0;
@@ -525,7 +527,7 @@ void bajaPelicula(char archiPeli[])//Elimina peliculas pasando usuario.eliminado
     }
 }
 
-void mostrarPeliParaModif(char archiPeli[])//Modificacion de peliculas para administrador
+void mostrarPeliParaModif()//Modificacion de peliculas para administrador
 {
     FILE *archi = fopen(archiPeli,"rb+");
     stPelicula aux;
@@ -792,210 +794,185 @@ int cargarArrayPeliculas(char archiPeli[], stPelicula array[])
 }
 
 
-void ordenarGenero (char archiPeli[])
+//void ordenarGenero (char archiPeli[])
+//{
+//    FILE *archi;
+//
+//    archi=fopen(archiPeli,"rb");
+//
+//    stPelicula arraydepeliculas[50];
+//
+//    int validos=0;
+//
+//    int i = 0;
+//
+//    if(archi==NULL)
+//    {
+//        printf("ERROR");
+//    }
+//    else
+//    {
+//        validos=cargarArrayPeliculas(archiPeli, arraydepeliculas);//se carga el array de peliculas
+//
+//        while (i<validos-1)//se recorre el array comparando los generos de las peliculas y ordenando de mayor a menor
+//        {
+//            insertar(arraydepeliculas,i);
+//            i++;
+//        }
+//
+//        mostrarArrayPeliculas(arraydepeliculas, validos);//se muestra el array por pantalla
+//        fclose(archi);
+//    }
+//
+//    system("pause");
+//
+//}
+
+
+//void ordenarTitulo(char archiPeli[])
+//{
+//    FILE *archi;
+//
+//    archi=fopen(archiPeli,"rb");
+//
+//    stPelicula arraydepeliculas[50];
+//
+//    int validos=0;
+//
+//    if(archi==NULL)
+//    {
+//        printf("ERROR");
+//    }
+//    else
+//    {
+//        validos=cargarArrayPeliculas(archiPeli,arraydepeliculas);//se carga el array de peliculas y se verifican los validos
+//        ordenacionSeleccion(arraydepeliculas,validos);//se ordenan por el metodo de ordenacion por seleccion
+//        mostrarArrayPeliculas(arraydepeliculas, validos); //se muestran por pantalla
+//        fclose(archi);
+//    }
+//    system("pause");
+//}
+//
+//void ordenacionSeleccion(stPelicula array[], int validos)
+//{
+//    int posmenor;
+//    stPelicula aux;
+//    int i = 0;
+//    while (i<validos-1)
+//    {
+//        posmenor=posicionMenor(array,i,validos);
+//        aux = array[posmenor];
+//        array[posmenor]= array[i];
+//        array[i]=aux;
+//        i++;
+//    }
+//}
+
+//int posicionMenor(stPelicula array[], int pos, int validos)
+//{
+//    char menor[30];
+//    strcpy(menor,array[pos].nombrePelicula);
+//    int posmenor=pos;
+//    int i=pos+1;
+//    while (i<validos)
+//    {
+//        if (strcmpi(menor,array[i].nombrePelicula)> 0)
+//        {
+//            strcpy(menor, array[i].nombrePelicula);
+//            posmenor=i;
+//        }
+//        i++;
+//    }
+//    return posmenor;
+//}
+
+stPelicula verPelicula()
 {
-    FILE *archi;
-
-    archi=fopen(archiPeli,"rb");
-
-    stPelicula arraydepeliculas[50];
-
-    int validos=0;
-
-    int i = 0;
-
-    if(archi==NULL)
+    int id=0;
+    printf("Ingrese el ID de la pelicula que desea ver: \n");
+    scanf("%i", &id);
+    nodoArbolPelicula auxPeli=buscarPeliculaID(ArbolPelis, id)
+                              if(auxPeli)
     {
-        printf("ERROR");
+        printf("Disfrute de : \n\n");
+        printf("Pelicula: %s \n", auxPeli->p.nombrePelicula);
+        printf("Del Director: %s \n", auxPeli->p.director);
+        printf("\n \n");
     }
-    else
+
+    else //En caso de no encontrar el id
     {
-        validos=cargarArrayPeliculas(archiPeli, arraydepeliculas);//se carga el array de peliculas
-
-        while (i<validos-1)//se recorre el array comparando los generos de las peliculas y ordenando de mayor a menor
-        {
-            insertar(arraydepeliculas,i);
-            i++;
-        }
-
-        mostrarArrayPeliculas(arraydepeliculas, validos);//se muestra el array por pantalla
-        fclose(archi);
+        printf("No se encuentra la pelicula \n");
     }
+
+
 
     system("pause");
-
+    return auxPeli->p;
 }
 
 
-void ordenarTitulo(char archiPeli[])
+int validarPeliExiste(char nombrePeli[]) // Valida si el nombre de la pelicula ingresada actualmente ya existe en el archivo
 {
-    FILE *archi;
-
-    archi=fopen(archiPeli,"rb");
-
-    stPelicula arraydepeliculas[50];
-
-    int validos=0;
-
-    if(archi==NULL)
-    {
-        printf("ERROR");
-    }
-    else
-    {
-        validos=cargarArrayPeliculas(archiPeli,arraydepeliculas);//se carga el array de peliculas y se verifican los validos
-        ordenacionSeleccion(arraydepeliculas,validos);//se ordenan por el metodo de ordenacion por seleccion
-        mostrarArrayPeliculas(arraydepeliculas, validos); //se muestran por pantalla
-        fclose(archi);
-    }
-    system("pause");
-}
-
-void ordenacionSeleccion(stPelicula array[], int validos)
-{
-    int posmenor;
-    stPelicula aux;
-    int i = 0;
-    while (i<validos-1)
-    {
-        posmenor=posicionMenor(array,i,validos);
-        aux = array[posmenor];
-        array[posmenor]= array[i];
-        array[i]=aux;
-        i++;
-    }
-}
-
-int posicionMenor(stPelicula array[], int pos, int validos)
-{
-    char menor[30];
-    strcpy(menor,array[pos].nombrePelicula);
-    int posmenor=pos;
-    int i=pos+1;
-    while (i<validos)
-    {
-        if (strcmpi(menor,array[i].nombrePelicula)> 0)
-        {
-            strcpy(menor, array[i].nombrePelicula);
-            posmenor=i;
-        }
-        i++;
-    }
-    return posmenor;
-}
-
-int verPelicula(char archiPeli[])
-{
-    FILE *archi;
-
-    archi=fopen(archiPeli,"rb+");
-
-    stPelicula array[50];
-
-    int validos=0, id=0, i = 0, flagid=0;
-
-    if(archi==NULL)
-    {
-        printf("ERROR");
-    }
-    else
-    {
-        printf("Ingrese el ID de la pelicula que desea ver: \n");
-        scanf("%i", &id);
-        validos=cargarArrayPeliculas(archiPeli, array);//se carga el array de usuarios y devuelve los validos
-        for (i=0; i<validos; i++)
-        {
-            if(id==array[i].idPelicula)//busqueda en el array hasta encontrar el id y mostrarlo por pantalla
-            {
-                flagid=1;
-                printf("Disfrute de : \n\n");
-                printf("Pelicula: %s \n", array[i].nombrePelicula);
-                printf("Del Director: %s \n", array[i].director);
-                printf("\n \n");
-            }
-        }
-        if(flagid==0) //Flag en caso de no encontrar el id
-        {
-            printf("No se encuentra la pelicula \n");
-            id=0; //En caso de no encontrar la pelicula retornara ID=0, es decir Falso
-        }
-        fclose(archi);
-
-    }
-
-    system("pause");
-    return id;
-}
-
-
-int validarPeliExiste(char archiPeli[], char nombrePelicula[]) // Valida si el nombre del usuario ingresado actualmente ya existe en el archivo
-{
-    stPelicula peliAux; // Se crea estructura auxiliar para trabajo temporal
-    int flag=0;
-
-    FILE * archi;
-
-    archi=fopen(archiPeli, "rb"); // Abre al archivo en modo sólo lectura para chequear acceso
-
-    if(archi==NULL)
-    {
-        printf("No se pudo abrir el archivo para consultar si la pelicula ya existe");
-        exit(1);
-    }
-
-    else
-    {
-
-        while((fread(&peliAux, sizeof(stPelicula), 1, archi)>0) && (flag!=1))  // Realiza el proceso mientras haya registros en el archivo
-        {
-            if(strcmp(peliAux.nombrePelicula, nombrePelicula)==0)  //Chequea si ambos strings son iguales
-            {
-                flag=1; // Si ambos strings son iguales, asigno valor 1 a flag como positivo
-            }
-        }
-    }
-
-    fclose(archi); // Cierra el archivo
-
+    int flag=buscarPelixNombre(nombrePeli);
     return flag; // Devuelve el valor de flag para su proceso en la función que la invoca
 }
 
-void mostrarPeliculas(char archiPeli[]) // Funcion auxiliar usada para chequear que el sistema funcione correctamente visualizando los registros ingresados por pantalla -
+int buscarPelixNombre(char PeliBuscada[])
 {
-    stPelicula peliAux;
-
-    FILE * archi;
-
-    archi=fopen(archiPeli, "rb");
-
-    if(archi==NULL)
+    flag=0;
+    if(Arbol!=NULL)
     {
-        printf("No se pudo abrir el archivo");
-    }
-
-    else
-    {
-
-        while(!feof(archi)) // Lectura de los datos que existen ene el archivo(Como función devuelve la cantidad de datos leídos)
+        if(strcmp(Arbol->p.nombrePelicula,PeliBuscada)==0)///Si encuentra la pelicula se corta la ejecucion de la funcion
         {
-            fread(&peliAux, sizeof(stPelicula), 1, archi);
-            if(!feof(archi)&&peliAux.eliminado!=1)//Validacion de fin de archivo y pelicula no eliminada
-            {
-                printf("ID: %i\n", peliAux.idPelicula);
-                printf("Nombre de peli: %s\n", peliAux.nombrePelicula);
-                printf("Anio: %i\n", peliAux.anio);
-                printf("Genero: %s\n", peliAux.genero);
-                printf("Pais: %s\n", peliAux.pais);
-                printf("Director %s\n", peliAux.director);
-                printf("Valoracion: %i\n", peliAux.valoracion);
-                printf("PM: %i\n", peliAux.pm);
-                printf("Estado en la base: %i\n\n", peliAux.eliminado);
-
-            }
+            flag=1;
         }
-        fclose(archi);
+        else
+        {
+            flag=buscarPeliculaID(Arbol->der,id);
+            flag=buscarPeliculaID(Arbol->izq,id);
+        }
     }
+
+    return flag;
 }
+
+//void mostrarPeliculas(char archiPeli[]) // Funcion auxiliar usada para chequear que el sistema funcione correctamente visualizando los registros ingresados por pantalla -
+//{
+//    stPelicula peliAux;
+//
+//    FILE * archi;
+//
+//    archi=fopen(archiPeli, "rb");
+//
+//    if(archi==NULL)
+//    {
+//        printf("No se pudo abrir el archivo");
+//    }
+//
+//    else
+//    {
+//
+//        while(!feof(archi)) // Lectura de los datos que existen ene el archivo(Como función devuelve la cantidad de datos leídos)
+//        {
+//            fread(&peliAux, sizeof(stPelicula), 1, archi);
+//            if(!feof(archi)&&peliAux.eliminado!=1)//Validacion de fin de archivo y pelicula no eliminada
+//            {
+//                printf("ID: %i\n", peliAux.idPelicula);
+//                printf("Nombre de peli: %s\n", peliAux.nombrePelicula);
+//                printf("Anio: %i\n", peliAux.anio);
+//                printf("Genero: %s\n", peliAux.genero);
+//                printf("Pais: %s\n", peliAux.pais);
+//                printf("Director %s\n", peliAux.director);
+//                printf("Valoracion: %i\n", peliAux.valoracion);
+//                printf("PM: %i\n", peliAux.pm);
+//                printf("Estado en la base: %i\n\n", peliAux.eliminado);
+//
+//            }
+//        }
+//        fclose(archi);
+//    }
+//}
 
 void mostrarArrayPeliculas(stPelicula array[], int validos)
 {

@@ -16,7 +16,7 @@ stCelda*arregloUsuInactivos;
 void cargaInicial()
 {
 
-int cantActivosIniciales=0; //Ver con profe donde va
+    int cantActivosIniciales=0; //Ver con profe donde va
     cantActivosIniciales=cargarArchivoUsuariosActivosToArreglo(archiUsu,arregloUsuActivos);
     cargarArchivoUsuariosInactivosToArreglo(archiUsu, arregloUsuInactivos);
 
@@ -1028,41 +1028,10 @@ void consultaUsuario(char archiUsu[], char nombreUsuario [])//Se Muestra info po
 
 }
 
-void cargarIdPeliAUser(int id, char nombreUsuario[],char archiUsu[])
+void cargarPeliAUser(stCelda arregloUsuActivos[], int validos, char nombreUsuario[],nodoListaPelicula Peli)
 {
-    FILE *archi;
-    archi=fopen(archiUsu, "rb+");
-    stUsuario usuAux;
-    int flag=0;
-    if(archi==NULL)
-    {
-        printf("ERROR");
-        exit(1);
-    }
-    else
-    {
-        fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
-        while(!feof(archi)&&flag!=1)
-        {
-            if(strcmpi(usuAux.nombreUsuario,nombreUsuario)==0)
-            {
-                printf("validacion usuario encontrado\n");
-//                usuAux.peliculasVistas[usuAux.cantVistas]=id;
-//                usuAux.cantVistas+=1;
-                flag=1;
-                fseek(archi, (usuAux.idUsuario-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-                fwrite(&usuAux, sizeof(usuAux), 1, archi); // Escritura del registro indicado
-            }
-            else
-            {
-                printf("busqueda activa\n");
-                fread(&usuAux, sizeof(stUsuario), 1, archi);
-            }
-
-        }
-
-        fclose(archi);
-    }
+    int posicion=buscarPosicionUsuario(arregloUsuActivos, validos, nombreUsuario);
+    agregarNodoFinal(arregloUsuActivos[posicion].listaPelis, Peli);
 }
 
 //***********************************************************************************************************************************//
@@ -1371,3 +1340,13 @@ void mostrarPass(int f,int c,int M[f][c]) //Funcion para mostrar matrices por pa
     printf("\n*********");
 }
 
+int buscarPosicionUsuario(stCelda arregloUsuActivos, int validos, char nombreUsuario[])
+{
+    int i, flag=0;
+    for(i=0; i<validos&&flag==0; i++)
+    {
+        if(strcmp(arregloUsuActivos[i].usr.nombreUsuario, nombreUsuario))
+            flag=1
+    }
+    return i;
+}
