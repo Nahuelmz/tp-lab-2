@@ -1,13 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "libreria.h"
-#include "strings.h"
+#include "string.h"
 #include "ctype.h"
 #include <conio.h>
 
 
 int main()
 {
+    char archiUsu[20]="usuarios.dat";
+    char archiPeli[20]="peliculas.bin";
+    const char archiPelisUsu[20]="pelisxusu.dat";
+    nodoArbolPelicula ArbolPelis;
+
     if(cargaInicial)
     {
 
@@ -51,5 +56,5 @@ int main()
     else
         printf("Error en la carga inicial de archivos");
 
-        return 0;
+    return 0;
 }

@@ -1,12 +1,6 @@
 #ifndef LIBRERIA_H_INCLUDED
 #define LIBRERIA_H_INCLUDED
 
-char archiUsu[20]="usuarios.dat";
-char archiPeli[20]="peliculas.bin";
-const char archiPelisUsu[20]="pelisxusu.dat";
-nodoArbolPelicula ArbolPelis;
-
-
 // ***** ESTRUCTURAS BASICAS *****
 
 typedef struct stUsuario
@@ -64,6 +58,7 @@ typedef struct stPelisVistas
 
 
 // FUNCIONES QUE TRABAJAN SOBRE USUARIOS
+
 void altaUsuario(char archiUsu[], stCelda arregloUsuActivos[]); // Da de alta a nuevos usuarios, invocando a las funciones pedidoDatosUsuario, validarUserExiste, AsignarId
 void bajaUsuario(char archiUsu[]); // Modifica el campo "eliminado" con un 1 para indicar verdadero
 void mostrarUserParaModif(char archiUsu[]);//Modificacion de usuario para administrador
@@ -80,17 +75,17 @@ void consultaUsuario(char archiUsu[], char nombreUsuario[]);//Se Muestra info po
 
 
 // FUNCIONES QUE TRABAJAN SOBRE PELICULAS
-void altaPelicula(char archiPeli[]);
-void bajaPelicula(char archiPeli[]);
-void mostrarPeliParaModif(char archiPeli[]);
-void consultaPeliAdmin(char archiPeli[]);
-void insertar(stPelicula array[], int i);
-int cargarArrayPeliculas(char archiPeli[], stPelicula array[]);
-void ordenarGenero (char archiPeli[]);
-void ordenarTitulo(char archiPeli[]);
-int verPelicula(char archiPeli[]);
-void ordenacionSeleccion(stPelicula array[], int validos);
-int posicionMenor(stPelicula array[], int pos, int validos);
+void altaPelicula();
+void bajaPelicula();
+void mostrarPeliParaModif();
+void consultaPeliAdmin();
+void insertar(stPelicula arregloPelis[], int i);
+int cargarArrayPeliculas(stPelicula arregloPelis[]);
+void ordenarGenero ();
+void ordenarTitulo();
+int verPelicula();
+void ordenacionSeleccion(stPelicula arregloPelis[], int validos);
+int posicionMenor(stPelicula arregloPelis[], int pos, int validos);
 
 
 // FUNCIONES DE VALIDACION
@@ -105,17 +100,18 @@ int validarPeliExiste(char nombrePeli[]);
 
 // FUNCIONES DE SUBMENUES // Menu principal en main
 void menuUsuario(char  nombreUsuario[]);
-void menuAdmin(char archiUsu[], char archiPeli[]);
-void menuAdminPelis(char archiUsu[]);
-void menuAdminUsuarios(char archiUsu[]);
+void menuAdmin();
+void menuAdminPelis();
+void menuAdminUsuarios();
 void subMenuListados();
 void loginUser();
 void loguinadm();
-int menumodif(char archiusu[]);//Menu para administrador para seleccion de campo a modificar
-int menuModifPelis(char archiPeli[]); //Menu para administrador para seleccion de campo a modificar
+int menumodif();//Menu para administrador para seleccion de campo a modificar
+int menuModifPelis(); //Menu para administrador para seleccion de campo a modificar
 
 
 // FUNCIONES AUXILIARES //
+
 void PelisxUsuarioArchivoToADL(stCelda arregloUsu[], int idUsuario, int posicion);//Carga de Peliculas vistas por usuario a arreglo de listas
 void actualizarPelisVistas(stCelda arregloUsuActivos[], int validosUsuActivos, stCelda arregloUsuInactivos[], int validosUsuInactivos);//Carga de peliculas vistas a archivo
 void mostrarUsuarios(char archiUsu[]); // Muestra los datos ingresados para ir verificando el funcionamiento del programa
@@ -136,6 +132,19 @@ void imprimirNodoPelis(nodoListaPelicula* nodoPeli);
 void mostrarNodoPelis(nodoListaPelicula* listaPelis);
 nodoListaPelicula* borrarPeliPorId(nodoListaPelicula*listaPelis, int id);
 
+// ***** FUNCIONES DE ARBOLES ******
+nodoArbolPelicula * inicArbol();
+nodoArbolPelicula * crearNodoArbol(stPelicula Pelicula);
+nodoArbolPelicula * insertaNodoArbol(nodoArbolPelicula * Arbol,stPelicula Pelicula);
+void preOrder(nodoArbolPelicula*Arbol);
+void inOrder(nodoArbolPelicula*Arbol);
+void postOrder(nodoArbolPelicula*Arbol);
+nodoArbolPelicula*buscarPeliculaID(nodoArbolPelicula*Arbol,stPelicula Pelicula);
+nodoArbolPelicula*borrarNodoArbolPeli(nodoArbolPelicula*Arbol,stPelicula P);
+
+// ***** FUNCIONES TP2 PELICULAS ******
+stPelicula verPelicula();
+int buscarPelixNombre(char PeliBuscada[]);
 
 // ***** FUNCIONES DE TP2: USUARIOS *****
 int cantUsuariosActivos(char archiUsu[]);
