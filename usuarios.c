@@ -6,30 +6,32 @@
 #include <conio.h>
 
 
-stCelda*arregloUsuActivos;
-stCelda*arregloUsuInactivos;
 
 
 // FUNCIONES VALE TP 2*******************************************************************************************************************************************************************
 
+//stCelda* cargaInicial(int*validosUsuActivos, int*validosUsuInactivos)
+//{
+//
+//
+//    nodoListaPelicula*listaPelis=inicLista();
+//
+//
+///Ver con profe donde van estas variables y arreglos
+//
+//    *validosUsuActivos = cargarArchivoUsuariosActivosToArreglo(archiUsu, arregloUsuActivos);
+//    *validosUsuInactivos = cargarArchivoUsuariosInactivosToArreglo(archiUsu, arregloUsuInactivos);
+//
+//
+//
+//
+//}
 
-void cargaInicial()
+int cantUsuariosActivos(char archiUsu[]) // Cuenta usuarios activos en archivo inicial
 {
 
-    int cantActivosIniciales=0; //Ver con profe donde va
-    cantActivosIniciales=cargarArchivoUsuariosActivosToArreglo(archiUsu,arregloUsuActivos);
-    cargarArchivoUsuariosInactivosToArreglo(archiUsu, arregloUsuInactivos);
-
-
-
-
-}
-
-int cantUsuariosActivos(char archiUsu[])
-{
-
-    int cantUsuarios=0;
-    stCelda aux;
+    int cantUsuarios=0; // En esta variable se almacenará la cantidad de usuarios activos y será retornada por la función
+    stCelda aux; //Creo celda auxiliar para la carga y el conteo de usuarios activos
 
     FILE*archi;
 
@@ -54,11 +56,11 @@ int cantUsuariosActivos(char archiUsu[])
 }
 
 
-int cantUsuariosInactivos(char archiUsu[])
+int cantUsuariosInactivos(char archiUsu[]) // Cuenta usuarios inactivos en archivo inicial
 {
 
     int cantUsuarios=0;
-    stCelda aux;
+    stCelda aux; // Creo celda auxiliar para la carga y el conteo de usuarios inactivos
 
     FILE*archi;
 
@@ -83,7 +85,7 @@ int cantUsuariosInactivos(char archiUsu[])
 }
 
 
-int cantUsuariosTotales(char archiUsu[])
+int cantUsuariosTotales(char archiUsu[]) // Función utilizada para contar la cantidad total de registros guardados en el archivo
 {
 
     int cantUsuarios=0;
@@ -117,23 +119,19 @@ int cantUsuariosTotales(char archiUsu[])
 }
 
 
-int cargarArchivoUsuariosActivosToArreglo(char archiUsu[], stCelda*arregloUsuActivos)
+stCelda* cargarArchivoUsuariosActivosToArreglo(stCelda arregloUsuActivos, int validos) // Función que carga los usuarios activos del archivo en el arreglo dinámico correspondiente
 {
-    int i=0;
-    int dim=cantUsuariosActivos(archiUsu);
-    stUsuario aux;
+    stUsuario aux; // Estructura que contiene a los datos de cada usuario(sin puntero a lista, la que lo incluye es stCelda)
 
-//    stCelda*arregloUsuActivos=NULL; // Inicializo a Null para dejarlo en limpio -- PASADA al main
+    arregloUsuActivos=malloc((sizeof(stCelda))*validos); // Reserva en memoria espacio del tamaño de dim*stCelda para el arreglo dinámico de usuarios activos
 
-    arregloUsuActivos=(stCelda*)malloc(sizeof(stCelda)*dim);
-
-    if(arregloUsuActivos==NULL)
+    if(arregloUsuActivos==NULL) // Si no existe espacio de almacenamiento suficiente, el programa se cierra
     {
         puts("No se puede continuar por error de asignacion de memoria");
         exit(-1);
     }
 
-    else
+    else // Si existe memoria disponible, avanza en la ejecución
     {
         FILE*archi;
 
@@ -148,70 +146,20 @@ int cargarArchivoUsuariosActivosToArreglo(char archiUsu[], stCelda*arregloUsuAct
                 {
                     arregloUsuActivos[i].usr=aux;
                     arregloUsuActivos[i].listaPelis=inicLista();
+                    PelisxUsuarioArchivoToADL(arregloUsuActivos, aux.idUsuario, i); // Función que levanta las películas vistas por el usuario actual desde el archivo de pelis x usuario
                     i++;
                 }
             }
             fclose(archi);
         }
-        else
-        {
-            printf("No se pudo abrir el archivo de usuarios");
-        }
-    }
-    return i; //Retorna usuarios activos pasados al arreglo en primera instancia
-}
-
-
-stCelda* cargarArchivoUsuariosInactivosToArreglo(char archiUsu[])
-{
-
-    int i=0;
-    int dim=cantUsuariosInactivos(archiUsu);
-    stCelda aux;
-
-//    stCelda*arregloUsuInactivos=NULL; // Inicializo a Null para dejarlo en limpio -- Pasada al main
-
-    stCelda * arregloUsuInactivos= malloc(sizeof(stCelda)*dim);
-
-    if(arregloUsuInactivos==NULL)
-    {
-        puts("No se puede continuar por error de asignacion de memoria");
-        exit(-1);
-    }
-
-    else
-    {
-
-        FILE*archi;
-
-        archi=fopen(archiUsu, "rb");
-
-        if(archi)
-        {
-
-            while(!feof(archi) && i<dim)
-            {
-                fread(&aux, sizeof(stCelda), 1, archi);
-                if(!feof(archi))
-                {
-                    fread(&aux, sizeof(stCelda), 1, archi);
-                    if(aux.usr.eliminado==1)
-                    {
-                        arregloUsuInactivos[i]=aux;
-                        arregloUsuInactivos[i].listaPelis=inicLista();
-                    }
-                }
-                i++;
-            }
-            fclose(archi);
-        }
 
         else
         {
             printf("No se pudo abrir el archivo de usuarios");
         }
     }
-    return arregloUsuInactivos;
+
+    return arregloUsuActivos;
 }
 
 
@@ -220,7 +168,7 @@ stCelda* cargarArchivoUsuariosInactivosToArreglo(char archiUsu[])
 //***********************************************************************************************************************************//
 
 
-void altaUsuario(char archiUsu[], stCelda arregloUsuActivos[]) // Funcion general de alta de usuario
+stCelda* altaUsuario(stCelda* arregloUsuActivos, int validos)// Funcion general de alta de usuario
 {
 
     // Declaración de variables locales
@@ -228,152 +176,149 @@ void altaUsuario(char archiUsu[], stCelda arregloUsuActivos[]) // Funcion genera
     int usuarioExiste=0;
     int longPass=0;
     int i=0;
-    int tamanioArray=0;
+    int cantUsuAct=0;
     long cantReg=0;
     char passAux[11];
     char control='s'; // Variable de control para ciclo while principal de solicitud de datos de usuarios
+
     stUsuario usuAux; // Se crea estructura auxiliar para trabajo temporal
 
-    system("cls");
-    printf("\n");
-    printf("\n*****************************************************");
-    printf("\n\t\tREGISTRO DE NUEVO USUARIO");
-    printf("\n*****************************************************");
-    printf("\n");
+    int pos=validos; // Indicador que se inicializa en validos + 1 para el primer registro agregado y luego se incrementa dentro del while
 
-    while(control=='s')
+    usuAux.idUsuario=cantUsuariosTotales(); // Se iguala a la cantidad total de registros(activos+eliminados) por primera vez al inciar para acumular a partir de este valor. Luego se incrementa dentro del while
+
+    FILE *archi; // Asigna espacio en buffer para almacenar temporariamente los datos en proceso mientras se pasa de la memoria al archivo
+    archi=fopen(archiUsu, "a+b"); //Se chequea el acceso al archivo bajo la modalidad lectura-escritura
+    if(archi==NULL) // Chequea si se puede abrir el archivo usando sólo lectura
+    {
+        printf("\nNo se pudo abrir el archivo");
+        exit(1); // Sale del programa si no se pudo abrir el archivo
+    }
+    else
     {
 
-        printf("Ingrese el nombre de usuario: ");
-        fflush(stdin);
-        gets(usuAux.nombreUsuario);
-        usuarioExiste=validarUserExiste(archiUsu, usuAux.nombreUsuario); // Chequea que el nombre de usuario en ingreso no exista en el archivo para evitar que se duplique mediante un flag
+        system("cls");
+        printf("\n");
+        printf("\n*****************************************************");
+        printf("\n\t\tREGISTRO DE NUEVO USUARIO");
+        printf("\n*****************************************************");
+        printf("\n");
 
-        if(usuarioExiste!=0)
+        while(control=='s')
         {
-            printf("Ese usuario ya existe, tiene 3 intentos mas\n");
+            printf("Ingrese el nombre de usuario: ");
+            fflush(stdin);
+            gets(usuAux.nombreUsuario);
+            usuarioExiste=validarUserExiste(archiUsu, usuAux.nombreUsuario); // Chequea que el nombre de usuario en ingreso no exista en el archivo para evitar que se duplique mediante un flag
 
-            while((usuarioExiste!=0) && (i<3))
-            {
-                printf("Ingrese un nuevo nombre de usuario: ");
-                fflush(stdin);
-                gets(usuAux.nombreUsuario);
-                usuarioExiste=validarUserExiste(archiUsu, usuAux.nombreUsuario); // Chequea que el nombre de usuario en ingreso no exista en el archivo para evitar que se duplique mediante un flag
-                i++;
-            }
             if(usuarioExiste!=0)
             {
-                printf("\nHa superado los 4 intentos, vuelva a probar mas tarde");
-                exit(1);
-            }
-            else
-            {
-                printf("El ingreso ha sido exitoso\n");
-            }
-        }
+                printf("Ese usuario ya existe, tiene 3 intentos mas\n");
 
-        printf("Ingrese la contrasenia(maximo 10 caracteres): ");
-        fflush(stdin);
-        gets(passAux);
-        longPass=validarLongPass(passAux); // Chequea que el nombre de usuario no supere los 10 caracteres mediante un flag
-
-        if(longPass!=0)
-        {
-            printf("La contrasenia debe tener 10 caracteres como maximo, tiene 3 intentos mas\n");
-
-            while((longPass!=0) && (i<3))
-            {
-                printf("Ingrese una nueva contrasenia: ");
-                fflush(stdin);
-                gets(passAux);
-                longPass=validarLongPass(passAux); // Chequea que el nombre de usuario no supere los 10 caracteres mediante un flag
-                i++;;
+                while((usuarioExiste!=0) && (i<3))
+                {
+                    printf("Ingrese un nuevo nombre de usuario: ");
+                    fflush(stdin);
+                    gets(usuAux.nombreUsuario);
+                    usuarioExiste=validarUserExiste(archiUsu, usuAux.nombreUsuario); // Chequea que el nombre de usuario en ingreso no exista en el archivo para evitar que se duplique mediante un flag
+                    i++;
+                }
+                if(usuarioExiste!=0)
+                {
+                    printf("\nHa superado los 4 intentos, vuelva a probar mas tarde");
+                    exit(1);
+                }
+                else
+                {
+                    printf("El ingreso ha sido exitoso\n");
+                }
             }
 
-            if(longPass==0)
-            {
-                printf("El ingreso ha sido exitoso\n");
-            }
-
-            else
-            {
-                printf("\nHa superado los 4 intentos, vuelva a probar mas tarde");
-                exit(1);
-            }
-        }
-
-        encriptacionPass(passAux, usuAux.pass);
-
-        printf("Ingrese anio de nacimiento: ");
-        scanf("%i", &usuAux.anioNacimiento);
-
-        printf("Ingrese el genero(m/f): ");
-        fflush(stdin);
-        scanf("%c", &usuAux.genero);
-
-        do
-        {
-            printf("Ingrese el pais(Solo caracteres): ");
+            printf("Ingrese la contrasenia(maximo 10 caracteres): ");
             fflush(stdin);
-            gets(usuAux.pais);
-            validacionPais=validarTipoChar(usuAux.pais);
+            gets(passAux);
+            longPass=validarLongPass(passAux); // Chequea que el nombre de usuario no supere los 10 caracteres mediante un flag
+
+            if(longPass!=0)
+            {
+                printf("La contrasenia debe tener 10 caracteres como maximo, tiene 3 intentos mas\n");
+
+                while((longPass!=0) && (i<3))
+                {
+                    printf("Ingrese una nueva contrasenia: ");
+                    fflush(stdin);
+                    gets(passAux);
+                    longPass=validarLongPass(passAux); // Chequea que el nombre de usuario no supere los 10 caracteres mediante un flag
+                    i++;;
+                }
+
+                if(longPass==0)
+                {
+                    printf("El ingreso ha sido exitoso\n");
+                }
+
+                else
+                {
+                    printf("\nHa superado los 4 intentos, vuelva a probar mas tarde");
+                    exit(1);
+                }
+            }
+
+            encriptacionPass(passAux, usuAux.pass);
+
+            printf("Ingrese anio de nacimiento: ");
+            scanf("%i", &usuAux.anioNacimiento);
+
+            printf("Ingrese el genero(m/f): ");
+            fflush(stdin);
+            scanf("%c", &usuAux.genero);
+
+            do
+            {
+                printf("Ingrese el pais(Solo caracteres): ");
+                fflush(stdin);
+                gets(usuAux.pais);
+                validacionPais=validarTipoChar(usuAux.pais);
+            }
+            while(validacionPais!=0);
+
+            usuAux.eliminado=0; // Se asigna flag negativo como valor predeterminado
+
+            usuAux.admin=0; // Por defecto NO es administrador
+
+            usuAux.idUsuario++; // Usa cantidad total de usuarios inicial en archivo para asignar el ID que es independiente de si el usuario está o no activo. Ver declaración de variables en esta función.
+
+            pos++;
+
+            arregloUsuActivos=realloc(arregloUsuActivos, sizeof(stcelda)*(pos)); // Agranda el arreglo en un registro(pos=validos fuera del while --> dentro del while va incrementando)
+
+            arregloUsuActivos[pos].usr=usuAux; // Carga los datos del stUsuario que se está creando en un arreglo auxiliar/temporal que luego se volcará al arreglo de usuarios activos y de ahí se pasará al archivo
+            arregloUsuActivos[pos].listaPelis=inicLista(); //Inicializa el puntero a la lista en NULL
+
+            fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se graban los datos del nuevo usuario en el archivo
+
+            printf("Desea continuar ingresando usuarios(s/n?"); // Se consulta si se desea continuar ingresando usuarios en esta sesión
+            fflush(stdin);
+            scanf("%c", &control);
+
+            if(control=='s')
+            {
+                system("cls");
+                puts("****** ALTA DE OTRO USUARIO ******\n");
+            }
+
         }
-        while(validacionPais!=0);
-
-
-//        fseek(archi, 0, 2); // Se lleva el cursor al final del archivo para calcular desde ahí el peso del mismo
-//
-//        if(ftell(archi)==0) // Si el tamaño del archivo en bytes es igual a 0, es decir si existe pero no tiene informacion
-//        {
-//            usuAux.idUsuario=1; // Se le asigna el valor 1 al primer registro
-//        }
-//        else
-//        {
-//            cantReg=(ftell(archi)/sizeof(stUsuario)); // Se calcula cuantos registros hay dividiendo el tamñao del archivo por el tamaño de la estructura
-//            usuAux.idUsuario=cantReg+1; // Se le asigna el ID al usuario en ingreso agregandole 1 la cantidad actual de registros
-//        }
-
-        usuAux.eliminado=0; // Se asigna negativo como valor predeterminado
-
-        usuAux.admin=0; // Por defecto NO es administrador
-
-
-        usuAux.idUsuario=cantUsuariosTotales(archiUsu)+1; ///CHEQUEAR COMO FUNCIONA
-
-
-        // ver como se usa realloc
-
-        tamanioArray=calcularTamanioArrayUsuarios(arregloUsuActivos); ///Reemplazar funcion con la de Nahuel
-
-        arregloUsuActivos=realloc(arregloUsuActivos, sizeof(stCelda)*(tamanioArray+1));
-
-        arregloUsuActivos[tamanioArray].usr=usuAux;
-
-
-
-
-        printf("Desea continuar ingresando usuarios(s/n?"); // Se consulta si se desea continuar ingresando usuarios en esta sesión
-        fflush(stdin);
-        scanf("%c", &control);
-
-        if(control=='s')
-        {
-            system("cls");
-            puts("****** ALTA DE OTRO USUARIO ******\n");
-        }
-
+        fclose(archi); // Cierre del archivo
     }
-
-//        fclose(archi); // Cierre del archivo
-//    }
+    return arregloUsuActivos;
 }
 
 
-
-void bajaUsuario(char archiUsu[]) //Elimina usuarios pasando usuario.eliminado a valor verdadero
+void bajaUsuario(stCelda*arregloUsuActivos, int validos) //Elimina usuarios pasando usuario.eliminado a valor verdadero
 {
     char control='n';
     int idUsu=0;
+    int i=0;
 
     stUsuario usuAux;
 
@@ -383,7 +328,7 @@ void bajaUsuario(char archiUsu[]) //Elimina usuarios pasando usuario.eliminado a
 
     if(archi==NULL)
     {
-        printf("No se pudo abrir el archivo para consultar si la pelicula ya existe");
+        printf("No se pudo abrir el archivo");
         exit(1);
     }
 
@@ -403,11 +348,20 @@ void bajaUsuario(char archiUsu[]) //Elimina usuarios pasando usuario.eliminado a
         scanf("%c", &control);
         if(control=='s') // Si confirma, se avanza
         {
+
             fseek(archi, (idUsu-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
             fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
             usuAux.eliminado=1; // Se cambia el estado del usuario a a eliminar
             fseek(archi, (idUsu-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
             fwrite(&usuAux, sizeof(usuAux), 1, archi); // Escribo el nuevo valor de eliminado en el archivo
+
+            while(i<validos){ // Recorre el arreglo para buscar el usuario a eliminar
+                if(arregloUsuActivos[i].usr.idUsuario==idUsu){ // Si se identifica al usuario a eliminar
+                    arregloUsuActivos[i].usr.eliminado=1; // Se cambia el campo eliminado a 1 para indicar que así está
+                }
+                i++;
+            }
+
             printf("\nEl usuario se elimino correctamente\n");
             printf("\nNombre del usuario: %s", usuAux.nombreUsuario);
             printf("\nEstado: %i", usuAux.eliminado);
@@ -463,8 +417,13 @@ void mostrarUserParaModif(char archiUsu[])//Modificacion de usuario para adminis
             printf("Password: %s\n", passAux);
             printf("El anio de nacimiento del Usuario es: %i \n", aux.anioNacimiento);
             printf("El genero del Usuario es: %c \n", aux.genero);
-            printf("El nombre del Usuario es: %s \n", aux.pais);
-            printf("IDs de Peliculas vistas: \n");
+            printf("El pais del Usuario es: %s \n", aux.pais);
+            if(aux.admin==1){
+                printf("El usuario seleccionado tambien es administrador");
+            }
+            else{
+                printf("El usuario NO tiene permisos de administrador");
+            }
             if(aux.eliminado==1)
             {
                 printf("El usuario ha sido marcado como eliminado de la base\n");
@@ -473,10 +432,7 @@ void mostrarUserParaModif(char archiUsu[])//Modificacion de usuario para adminis
             {
                 printf("El usuario esta activo\n");
             }
-//            for(i=0; i<aux.cantVistas; i++)
-//            {
-//                printf("%i \n", aux.peliculasVistas[i]);
-//            }
+
             system("pause");
 
             do
@@ -548,10 +504,13 @@ void mostrarUserParaModif(char archiUsu[])//Modificacion de usuario para adminis
                     scanf("%c", &control);
                     break;
 
-//               case 7:
-                    //                 cantPelisVistas=registroPelisVistas(pelisVistas[dim], dim);
-                    //               printf("El usuario ha visto %i peliculas", cantPelisVistas);
+                case 7:
 
+                    printf("Ingrese el nivel de permisos para este usuario: 0 para usuario sin facultades o 1 para administrador: \n");
+                    scanf("%i", &aux.admin);
+                    printf("Desea Modificar otro campo? s/n \n");
+                    fflush(stdin);
+                    scanf("%c", &control);
                     break;
 
                 default:
@@ -1347,6 +1306,6 @@ int buscarPosicionUsuario(stCelda arregloUsuActivos, int validos, char nombreUsu
     {
         if(strcmp(arregloUsuActivos[i].usr.nombreUsuario, nombreUsuario))
             flag=1
-    }
+        }
     return i;
 }
