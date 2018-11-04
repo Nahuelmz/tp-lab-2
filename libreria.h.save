@@ -168,7 +168,7 @@ int cantUsuariosInactivos(char archiUsu[]); // Cuenta la cantidad inicial de usu
 int cantUsuariosTotales(char archiUsu[]); // Cuenta la cantidad inicial de usuarios totales en el archivo
 int cargarArchiUsuToArreglo(char archiUsu[]); // Pasa los registros activos del archivo al arreglo
 void altaUsuarios(); // Sesión de alta de usuarios: se ingresan los datos al arreglo y se persisten en el archivo
-void bajaUsuario(char archiUsu[], stCelda* arregloUsuActivos); // Modifica el campo "Eliminado" del usuario buscado en el arreglo y se persiste en el archivo
+void bajaUsuario(char ARCHstCelda* arregloUsuActivos); // Modifica el campo "Eliminado" del usuario buscado en el arreglo y se persiste en el archivo
 void modificarUsuario(); // Menú de modificación de los distintos datos del usuario: se guardan las modificaciones en el arreglo y se persisten en el archivo
 void imprimirUsuarioConPass(stUsuario); // TP 2: Imprime en pantalla los datos del/los usuario/s pasado/s por parámetro - CON PASSWORD P/USUARIO
 void imprimirUsuarioSinPass(stUsuario); // TP 2: Imprime en pantalla los datos del/los usuario/s pasado/s por parámetro - SIN PASSWORD P/ADMIN

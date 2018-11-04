@@ -3,7 +3,7 @@
 
 int main()
 {
-cargarArchiUsuToArreglo(ARCHIUSU);
+cargarArchiUsuToArreglo(ARCHI)
 altaUsuarios(ARCHIUSU);
 
 mostrarUsuarios();

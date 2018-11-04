@@ -37,3 +37,27 @@
 	"ctype.h"
 	<conio.h>
 
+1541292262 source:c:\users\vugob\desktop\tp-lab-2-master-v5\tp-lab-2-master\main.c
+	"libreria.h"
+
+1541291251 c:\users\vugob\desktop\tp-lab-2-master-v5\tp-lab-2-master\libreria.h
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"ctype.h"
+	<conio.h>
+
+1541291152 source:c:\users\vugob\desktop\tp-lab-2-master-v5\tp-lab-2-master\pelisxuser.c
+	"libreria.h"
+
+1541289414 source:c:\users\vugob\desktop\tp-lab-2-master-v5\tp-lab-2-master\peliculas.c
+	"libreria.h"
+
+1541284706 source:c:\users\vugob\desktop\tp-lab-2-master-v5\tp-lab-2-master\cargainicial.c
+	"libreria.h"
+
+1541293711 source:c:\users\vugob\desktop\tp-lab-2-master-v5\tp-lab-2-master\usuarios.c
+	"libreria.h"
+
+1541289137 source:c:\users\vugob\desktop\tp-lab-2-master-v5\tp-lab-2-master\menues.c
+
