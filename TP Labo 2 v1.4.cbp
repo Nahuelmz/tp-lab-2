@@ -31,7 +31,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="libreria.c">
+		<Unit filename="auxUsuarios.txt" />
+		<Unit filename="cargaInicial.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="libreria.h" />
@@ -41,19 +42,15 @@
 		<Unit filename="menues.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="menues.h" />
 		<Unit filename="peliculas.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="peliculas.h" />
 		<Unit filename="pelisXuser.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="pelisXuser.h" />
 		<Unit filename="usuarios.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="usuarios.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

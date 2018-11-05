@@ -9,6 +9,7 @@
 #include "ctype.h"
 #include <conio.h>
 #include <windows.h>
+#include <time.h>
 
 
 // ***** ESTRUCTURAS BASICAS *****
@@ -69,8 +70,8 @@ typedef struct stPelisVistas
 // FUNCIONES DE VALIDACION
 int validarLongPass(char pass[]); // Chequea si la contrasenia supera los 10 caracteres
 int validarUserExiste(char archiUsu[], char nombreUsuario[]); // Chequea si el nombre de usuario ya existe al momento del alta
-//int validarTipoAlfanumerico(char cadena[]); // Devuelve 1 si el parámetro pasado es cadena ALFANUMERICA, 0 si no lo es
-//int validarTipoChar(char cadena[]);  // Devuelve 1 si el parámetro pasado es cadena de caracteres, 0 si no lo es
+int validarTipoAlfanumerico(char cadena[]); // Devuelve 1 si el parámetro pasado es cadena ALFANUMERICA, 0 si no lo es
+int validarTipoChar(char cadena[]);  // Devuelve 1 si el parámetro pasado es cadena de caracteres, 0 si no lo es
 int validacionPass(stCelda arregloUsuActivos[], char nombre[], char pass[]); // //Funcion de validacion de password ingresado por usuario a traves de desencriptacion de matriz codificada - Retorna true or false
 int validacionPassAdmin(char pass[]);//No se pasa por parametro el nombre del administrador ya que estos poseen un solo nombre de usuario - Funcion de validacion de password ingresado por administrador a traves de desencriptacion de matriz codificada - Retorna true or false
 int validarPeliExiste(char nombrePeli[]);
@@ -124,7 +125,7 @@ void menuAdminUsuarios();
 void subMenuListados();
 void loginUser();
 void loguinadm();
-void menumodif(char archiUsu[], int id, int pos); // Menu de modificación de usuarios
+void menumodif(char archiUsu[]); // Menu de modificación de usuarios
 int menuModifPelis(); //Menu para administrador para seleccion de campo a modificar
 
 
@@ -176,7 +177,7 @@ void mostrarUsuariosActivos(); // Muestra lista de usuarios activos con sus resp
 int buscarPosicionUsuario(char nombreUsuario[]); // Retorna la posicion en el arreglo del usuario buscando por nombre de usuario
 int buscarPosUsuarioPorId(int id); // Retorna la posicion en el arreglo del usuario buscando por el ID del usuario
 void consultarUsuario(); // Muestra por pantalla los datos del usuario consultado por ID o por nombre
-void modificarUsuario(char archiUsu[]); // Solicita el id del usuario y verifica si existe. De existir, continua con el menu "menumodif"
+int modificarUsuario(char archiUsu[]); // Solicita el id del usuario y verifica si existe. De existir, continua con el menu "menumodif"
 int cambiarNombreUsu(char archiUsu[], int id, int pos); // Función invocada por el menu "menumodif" para efectuar el cambio que solicita la misma
 int cambiarPassUsu(char archiUsu[], int id, int pos);// Función invocada por el menu "menumodif" para efectuar el cambio que solicita la misma
 int cambiarAnioUsu(char archiUsu[], int id, int pos);// Función invocada por el menu "menumodif" para efectuar el cambio que solicita la misma

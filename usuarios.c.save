@@ -54,7 +54,20 @@ int validarUserExiste(char archiUsu[], char nombreUsuario[]) // Valida si el nom
 
 
 
+int validarUsuExisteNombre(char nombre[]){
 
+int flag=0, i=0;
+
+    while(i<validos)
+    {
+        if(strcmp(nombre, arregloUsuActivos[i].usr.nombreUsuario)==0)
+        {
+            flag=1;
+        }
+        i++;
+    }
+    return flag;
+}
 
 int validarUsuExisteArrayId(int id) // Valida si el id ingresado existe en el arreglo de usuarios activos(que igualmente contiene a los inactivos con su campo eliminados en 1 para que puedan restaurarse)
 {
@@ -79,11 +92,11 @@ int validarTipoAlfanumerico(char cadena[])  // Devuelve 1 si la variable analiza
 
     int i=0;
     int j=0;
-    int flag=0;
+    int flag=1;
 
     j=strlen(cadena);
 
-    while((i<j) && (flag==0))
+    while((i<j) && (flag))
     {
         if(isalnum(cadena[i])!=0)
         {
@@ -91,7 +104,7 @@ int validarTipoAlfanumerico(char cadena[])  // Devuelve 1 si la variable analiza
         }
         else
         {
-            flag=1;
+            flag=0;
         }
     }
     return flag;
@@ -103,11 +116,11 @@ int validarTipoChar(char cadena[])  // Devuelve 1 si la variable analizada es ca
 
     int i=0;
     int j=0;
-    int flag=0;
+    int flag=1;
 
     j=strlen(cadena);
 
-    while((i<j) && (flag==0))
+    while((i<j) && (flag))
     {
         if(isalpha(cadena[i])!=0)
         {
@@ -115,7 +128,7 @@ int validarTipoChar(char cadena[])  // Devuelve 1 si la variable analizada es ca
         }
         else
         {
-            flag=1;
+            flag=0;
         }
     }
     return flag;
@@ -358,9 +371,10 @@ void altaUsuarios(char archiUsu[])// Funcion general de alta de usuarios
 
     // Declaración de variables locales
     int validacionPais=0;
-    int usuarioExiste=0;
+    SYSTEMTIME str_t;
     int longPass=0;
     int i=0;
+    int Exito=0;
     char passAux[11];
     char control='s'; // Variable de control para ciclo while principal de solicitud de datos de usuarios
 
@@ -390,35 +404,42 @@ void altaUsuarios(char archiUsu[])// Funcion general de alta de usuarios
 
         while(control=='s')
         {
-            printf("Ingrese el nombre de usuario: ");
+            printf("Ingrese un nombre de usuario Alfanumerico o alfabetico valido: ");
             fflush(stdin);
             gets(usuAux.nombreUsuario);
-            usuarioExiste=validarUserExiste(archiUsu, usuAux.nombreUsuario); // Chequea que el nombre de usuario en ingreso no exista en el archivo para evitar que se duplique mediante un flag
 
-            if(usuarioExiste!=0)
+            while (!Exito && i<4)
             {
-                printf("Ese usuario ya existe, tiene 3 intentos mas\n"); // En total se ofrecen cuatro intentos de ingreso por nombre de usuario existente en la base
-
-                while((usuarioExiste!=0) && (i<3))
+                if(validarUserExiste(archiUsu, usuAux.nombreUsuario)) // Chequea que el nombre de usuario en ingreso no exista en el archivo para evitar que se duplique mediante un flag
                 {
+                    printf("Ese usuario ya existe, tiene %d intentos mas\n", 4-i); // En total se ofrecen cuatro intentos de ingreso por nombre de usuario existente en la base
                     printf("Ingrese un nuevo nombre de usuario: ");
                     fflush(stdin);
                     gets(usuAux.nombreUsuario);
-                    usuarioExiste=validarUserExiste(archiUsu, usuAux.nombreUsuario); // Chequea que el nombre de usuario en ingreso no exista en el archivo para evitar que se duplique mediante un flag
                     i++;
                 }
 
-                if(usuarioExiste!=0)
+                else if(!validarTipoChar(usuAux.nombreUsuario))
                 {
-                    printf("\nHa superado los 4 intentos, vuelva a probar mas tarde");
-                    exit(1); // Si supero los 4 intentos sale del programa
+                    printf("Ha ingresado un nombre incorrecto\n");
+                    printf("Ingrese un nombre de usuario alfabetico valido: \n");
+                    fflush(stdin);
+                    gets(usuAux.nombreUsuario);
+                    i++;
                 }
-
                 else
-                {
-                    printf("El ingreso ha sido exitoso\n"); // Confirma si el ingreso del nombre de usuario fue exittoso
-                }
+                    Exito=1;
             }
+
+            if(i==4)
+            {
+                printf("\nHa superado los 4 intentos, vuelva a probar mas tarde");
+                exit(1); // Si supero los 4 intentos sale del programa
+            }
+
+            else
+            {
+                printf("El ingreso ha sido exitoso\n"); // Confirma si el ingreso del nombre de usuario fue exittoso
 
             printf("Ingrese la contrasenia(maximo 10 caracteres): ");
             fflush(stdin);
@@ -453,12 +474,19 @@ void altaUsuarios(char archiUsu[])// Funcion general de alta de usuarios
 
             encriptacionPass(passAux, usuAux.pass); // Se encripta el password ingresado por el usuario
 
-            printf("Ingrese anio de nacimiento: "); //Solicitud de datos del usuario
-            scanf("%i", &usuAux.anioNacimiento);
+            do
+            {
+                printf("Ingrese anio de nacimiento(la edad minima es 16 anios): "); //Solicitud de datos del usuario
+                scanf("%i", &usuAux.anioNacimiento);
+                GetSystemTime(&str_t);
+            }
+            while(usuAux.anioNacimiento <1918 || 16 > (str_t.wYear - usuAux.anioNacimiento));
 
+            do{
             printf("Ingrese el genero(m/f): "); //Solicitud de datos del usuario
             fflush(stdin);
             scanf("%c", &usuAux.genero);
+            }while(usuAux.genero!='m' && usuAux.genero!='f');
 
             do //Solicitud de datos del usuario mientras el país no sea sólo de caracteres
             {
@@ -467,7 +495,7 @@ void altaUsuarios(char archiUsu[])// Funcion general de alta de usuarios
                 gets(usuAux.pais);
                 validacionPais=validarTipoChar(usuAux.pais);
             }
-            while(validacionPais!=0);
+            while(validacionPais==0);
 
             usuAux.eliminado=0; // Se asigna flag negativo como valor predeterminado
 
@@ -495,695 +523,701 @@ void altaUsuarios(char archiUsu[])// Funcion general de alta de usuarios
             }
 
         }
+
+    }
         fclose(archi); // Cierre del archivo
     }
-
 }
 
 
-void bajaUsuario(char archiUsu[]) //Elimina usuarios pasando asignando valor verdadero al campo "eliminado"
-{
-    char control='n';
-    int idUsu=0;
-    int posId=0;
 
-    stUsuario usuAux;
 
-    FILE *archi=fopen(archiUsu, "r+b");
-
-    if(archi==NULL)
+    void bajaUsuario(char archiUsu[]) //Elimina usuarios pasando asignando valor verdadero al campo "eliminado"
     {
-        printf("No se pudo abrir el archivo");
-        exit(1);
-    }
+        char control='n';
+        int idUsu=0;
+        int posId=0;
 
-    else
-    {
-        system("cls");
-        printf("\n");
-        printf("\n*****************************************************");
-        printf("\n\tBAJA DE USUARIOS");
-        printf("\n*****************************************************");
-        printf("\n");
+        stUsuario usuAux;
 
-        printf("\nIngrese el ID del usuario a eliminar: ");
-        scanf("%i", &idUsu);
+        FILE *archi=fopen(archiUsu, "r+b");
 
-        if(validarUsuExisteArrayId(idUsu) && validarUsuActivo(idUsu))
+        if(archi==NULL)
         {
-            posId=buscarPosUsuarioPorId(idUsu);
-            imprimirUsuarioSinPass(arregloUsuActivos[posId].usr);
-            printf("\nEsta seguro de que desea eliminar el usuario(s/n?"); // Chequea nuevamente si quiere avanzar con la baja de la pelicula
-            fflush(stdin);
-            scanf("%c", &control);
-
-            if(control=='s') // Si confirma, se avanza
-            {
-
-                fseek(archi, (idUsu-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-                fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
-                usuAux.eliminado=1; // Se cambia el estado del usuario a a eliminar
-                fseek(archi, (idUsu-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-                fwrite(&usuAux, sizeof(usuAux), 1, archi); // Escribo el nuevo valor de eliminado en el archivo
-
-
-                arregloUsuActivos[posId].usr.eliminado=1;
-
-                printf("\nEl usuario se elimino correctamente\n");
-                printf("\nNombre del usuario: %s\n", usuAux.nombreUsuario);
-                printf("\nEstado: %i - Eliminado\n", usuAux.eliminado);
-
-            }
-
-            else // Si no confirma, se sale del programa
-            {
-                exit(1);
-            }
+            printf("No se pudo abrir el archivo");
+            exit(1);
         }
+
         else
         {
-            printf("El usuario indicado no existe o esta eliminado\n");
-            system("pause");
-        }
-        fclose(archi);
-    }
-}
+            system("cls");
+            printf("\n");
+            printf("\n*****************************************************");
+            printf("\n\tBAJA DE USUARIOS");
+            printf("\n*****************************************************");
+            printf("\n");
 
+            printf("\nIngrese el ID del usuario a eliminar: ");
+            scanf("%i", &idUsu);
 
-
-
-
-void imprimirUsuarioSinPass(stUsuario usr) // TP 2: Imprime en pantalla los datos del/los usuario/s pasado/s por parámetro - SIN PASSWORD P/ADMIN
-{
-    puts("\n\n");
-    printf("ID del usuario: %i\n", usr.idUsuario);
-    printf("Nombre: %s\n", usr.nombreUsuario);
-    printf("Genero: %c\n", usr.genero);
-    printf("Pais: %s\n", usr.pais);
-    printf("Anio de nacimiento: %i\n", usr.anioNacimiento);
-    if(usr.admin==1)
-        printf("El usuario seleccionado es administrador\n");
-    else
-        printf("El usuario NO tiene permisos de administrador\n");
-    if(usr.eliminado==1)
-        printf("El usuario ha sido marcado como eliminado en la base\n");
-    else
-        printf("El usuario esta activo\n");
-
-}
-
-
-void imprimirUsuarioConPass(stUsuario usr) // TP 2: Imprime en pantalla los datos del/los usuario/s pasado/s por parámetro - CON PASSWORD P/USUARIO
-{
-    char passAux[10];
-
-    puts("\n\n");
-    printf("ID del usuario: %i\n", usr.idUsuario);
-    printf("Nombre: %s\n", usr.nombreUsuario);
-    desencriptacionPass(usr.pass, passAux);
-    printf("Password: %s \n", passAux);
-    printf("Genero: %c\n",usr.genero);
-    printf("Pais: %s\n", usr.pais);
-    printf("Anio de nacimiento: %i\n", usr.anioNacimiento);
-    if(usr.admin==1)
-        printf("El usuario seleccionado es administrador\n");
-    else
-        printf("El usuario NO tiene permisos de administrador\n");
-    if(usr.eliminado==1)
-        printf("El usuario ha sido marcado como eliminado en la base\n");
-    else
-        printf("El usuario esta activo\n");
-
-
-}
-
-/// OJO ver con Nahuel por mostrar Nodo Pelis
-void mostrarUsuariosActivos() //TP 2: Pasa a la función imprimir usuarios los usuarios activos para mostrar sus datos
-{
-    int i=0;
-    system("cls");
-    printf("El listado actual de usuarios activos es el siguiente:\n\n");
-    while(i<validos)
-    {
-        if(arregloUsuActivos[i].usr.eliminado==0)
-        {
-            imprimirUsuarioConPass(arregloUsuActivos[i].usr);
-            //mostrarNodoPelis(arregloUsuActivos[i].listaPelis);
-
-        }
-        Sleep(500);
-        i++;
-    }
-}
-
-void mostrarUsuariosArchivo(char archiUsu[], int id)// Busca y muestra el usuario pasado por ID desde el archivo(activo o no).
-//Se usa para la modificación del registro, cuando se puede revertir la condición de eliminado. NO se muestra el pass al administrador
-{
-    FILE *archi = fopen(archiUsu,"rb+");
-    stUsuario aux;
-    int flag=0;
-    if(archi!=NULL)
-    {
-        while (!feof(archi)&&flag==0) //Busqueda por nombre del usuario para luego mostrar por pantalla
-        {
-            fread(&aux,sizeof(stUsuario),1,archi);
-            if(id==aux.idUsuario)
+            if(validarUsuExisteArrayId(idUsu) && validarUsuActivo(idUsu))
             {
-                printf("Sus datos son los siguientes: \n");
-                printf("Nombre del Usuario es: %s \n", aux.nombreUsuario);
-                printf("Su anio de nacimiento es: %i \n", aux.anioNacimiento);
-                printf("Su genero es: %c \n", aux.genero);
-                printf("Su Pais de nacimiento es: %s \n", aux.pais);
-                if(aux.admin==1)
-                    printf("El usuario seleccionado es administrador\n");
-                else
-                    printf("El usuario NO tiene permisos de administrador\n");
-                if(aux.admin==1)
-                    printf("El usuario ha sido marcado como eliminado en la base\n");
-                else
-                    printf("El usuario esta activo\n");
+                posId=buscarPosUsuarioPorId(idUsu);
+                imprimirUsuarioSinPass(arregloUsuActivos[posId].usr);
+                printf("\nEsta seguro de que desea eliminar el usuario(s/n?"); // Chequea nuevamente si quiere avanzar con la baja de la pelicula
+                fflush(stdin);
+                scanf("%c", &control);
 
-                flag=1;
+                if(control=='s') // Si confirma, se avanza
+                {
+
+                    fseek(archi, (idUsu-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+                    fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
+                    usuAux.eliminado=1; // Se cambia el estado del usuario a a eliminar
+                    fseek(archi, (idUsu-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+                    fwrite(&usuAux, sizeof(usuAux), 1, archi); // Escribo el nuevo valor de eliminado en el archivo
+
+
+                    arregloUsuActivos[posId].usr.eliminado=1;
+
+                    printf("\nEl usuario se elimino correctamente\n");
+                    printf("\nNombre del usuario: %s\n", usuAux.nombreUsuario);
+                    printf("\nEstado: %i - Eliminado\n", usuAux.eliminado);
+
+                }
+
+                else // Si no confirma, se sale del programa
+                {
+                    exit(1);
+                }
             }
             else
-                printf("Error \n");
+            {
+                printf("El usuario indicado no existe o esta eliminado\n");
+                system("pause");
+            }
             fclose(archi);
         }
     }
-    else
-        printf("ERROR \n");
-}
 
 
 
-int buscarPosicionUsuario(char nombreUsuario[]) // Busca la posicion del usuario en el arreglo por nombre de usuario
-{
-    int i=0;
-    while (i<validos && strcmp(arregloUsuActivos[i].usr.nombreUsuario, nombreUsuario)!=0)
-        i++;
-    return i;
-}
 
 
-int buscarPosUsuarioPorId(int id) // Busca la posicion del usuario en el arreglo por nombre de usuario
-{
-    int i=0;
-    while (i<validos && id!=arregloUsuActivos[i].usr.idUsuario)
+    void imprimirUsuarioSinPass(stUsuario usr) // TP 2: Imprime en pantalla los datos del/los usuario/s pasado/s por parámetro - SIN PASSWORD P/ADMIN
     {
-        i++;
+        puts("\n\n");
+        printf("ID del usuario: %i\n", usr.idUsuario);
+        printf("Nombre: %s\n", usr.nombreUsuario);
+        printf("Genero: %c\n", usr.genero);
+        printf("Pais: %s\n", usr.pais);
+        printf("Anio de nacimiento: %i\n", usr.anioNacimiento);
+        if(usr.admin==1)
+            printf("El usuario seleccionado es administrador\n");
+        else
+            printf("El usuario NO tiene permisos de administrador\n");
+        if(usr.eliminado==1)
+            printf("El usuario ha sido marcado como eliminado en la base\n");
+        else
+            printf("El usuario esta activo\n");
+
     }
-    return i;
-}
 
 
-void consultarUsuario()
-{
-
-    int opcion=0, pos=0;
-
-    system("cls");
-    printf("\n");
-    printf("\n*****************************************************");
-    printf("\n\t\tCONSULTA DE USUARIO");
-    printf("\n*****************************************************");
-    printf("\n");
-
-    printf("Desea buscar al usuario por ID(1) o por nombre(2)? Ingrese su opcion: ");
-    fflush(stdin);
-    scanf("%i", &opcion);
-
-    if(opcion==1)
+    void imprimirUsuarioConPass(stUsuario usr) // TP 2: Imprime en pantalla los datos del/los usuario/s pasado/s por parámetro - CON PASSWORD P/USUARIO
     {
-        int idAux;
-        printf("\nIngrese el ID del usuario a consultar: ");
-        fflush(stdin);
-        scanf("%i", &idAux);
-        pos=buscarPosUsuarioPorId(idAux);
-        if(arregloUsuActivos[pos].usr.eliminado==0)
+        char passAux[10];
+
+        puts("\n\n");
+        printf("ID del usuario: %i\n", usr.idUsuario);
+        printf("Nombre: %s\n", usr.nombreUsuario);
+        desencriptacionPass(usr.pass, passAux);
+        printf("Password: %s \n", passAux);
+        printf("Genero: %c\n",usr.genero);
+        printf("Pais: %s\n", usr.pais);
+        printf("Anio de nacimiento: %i\n", usr.anioNacimiento);
+        if(usr.admin==1)
+            printf("El usuario seleccionado es administrador\n");
+        else
+            printf("El usuario NO tiene permisos de administrador\n");
+        if(usr.eliminado==1)
+            printf("El usuario ha sido marcado como eliminado en la base\n");
+        else
+            printf("El usuario esta activo\n");
+
+
+    }
+
+/// OJO ver con Nahuel por mostrar Nodo Pelis
+    void mostrarUsuariosActivos() //TP 2: Pasa a la función imprimir usuarios los usuarios activos para mostrar sus datos
+    {
+        int i=0;
+        system("cls");
+        printf("El listado actual de usuarios activos es el siguiente:\n\n");
+        while(i<validos)
         {
-            printf("Los datos del usuario consultado son: \n");
-            imprimirUsuarioSinPass(arregloUsuActivos[pos].usr);
+            if(arregloUsuActivos[i].usr.eliminado==0)
+            {
+                imprimirUsuarioConPass(arregloUsuActivos[i].usr);
+                //mostrarNodoPelis(arregloUsuActivos[i].listaPelis);
+
+            }
+            Sleep(500);
+            i++;
+        }
+    }
+
+    void mostrarUsuariosArchivo(char archiUsu[], int id)// Busca y muestra el usuario pasado por ID desde el archivo(activo o no).
+//Se usa para la modificación del registro, cuando se puede revertir la condición de eliminado. NO se muestra el pass al administrador
+    {
+        FILE *archi = fopen(archiUsu,"rb+");
+        stUsuario aux;
+        int flag=0;
+        if(archi!=NULL)
+        {
+            while (!feof(archi)&&flag==0) //Busqueda por nombre del usuario para luego mostrar por pantalla
+            {
+                fread(&aux,sizeof(stUsuario),1,archi);
+                if(id==aux.idUsuario)
+                {
+                    printf("Sus datos son los siguientes: \n");
+                    printf("Nombre del Usuario es: %s \n", aux.nombreUsuario);
+                    printf("Su anio de nacimiento es: %i \n", aux.anioNacimiento);
+                    printf("Su genero es: %c \n", aux.genero);
+                    printf("Su Pais de nacimiento es: %s \n", aux.pais);
+                    if(aux.admin==1)
+                        printf("El usuario seleccionado es administrador\n");
+                    else
+                        printf("El usuario NO tiene permisos de administrador\n");
+                    if(aux.admin==1)
+                        printf("El usuario ha sido marcado como eliminado en la base\n");
+                    else
+                        printf("El usuario esta activo\n");
+
+                    flag=1;
+                }
+                else
+                    printf("Error \n");
+                fclose(archi);
+            }
         }
         else
-        {
-            printf("El usuario buscado no existe o esta eliminado\n");
-
-        }
+            printf("ERROR \n");
     }
 
-    if(opcion==2)
+
+
+    int buscarPosicionUsuario(char nombreUsuario[]) // Busca la posicion del usuario en el arreglo por nombre de usuario
     {
-        char nombreAux[15];
-        printf("\nIngrese el nombre del usuario a consultar: ");
+        
+        int i=0;
+        
+        while (i<validos && strcmp(arregloUsuActivos[i].usr.nombreUsuario, nombreUsuario)!=0)
+            i++;
+        
+        return i;
+    }
+
+
+    int buscarPosUsuarioPorId(int id) // Busca la posicion del usuario en el arreglo por nombre de usuario
+    {
+        int i=0;
+        while (i<validos && id!=arregloUsuActivos[i].usr.idUsuario)
+        {
+            i++;
+        }
+        return i;
+    }
+
+
+    void consultarUsuario()
+    {
+
+        int opcion=0, pos=0;
+
+        system("cls");
+        printf("\n");
+        printf("\n*****************************************************");
+        printf("\n\t\tCONSULTA DE USUARIO");
+        printf("\n*****************************************************");
+        printf("\n");
+
+        printf("Desea buscar al usuario por ID(1) o por nombre(2)? Ingrese su opcion: ");
         fflush(stdin);
-        gets(nombreAux);
-        pos=buscarPosicionUsuario(nombreAux);
-        if(arregloUsuActivos[pos].usr.eliminado==0)
+        scanf("%i", &opcion);
+
+        if(opcion==1)
         {
-            printf("Los datos del usuario consultado son: \n");
-            imprimirUsuarioSinPass(arregloUsuActivos[pos].usr);
+            int idAux;
+            printf("\nIngrese el ID del usuario a consultar: ");
+            fflush(stdin);
+            scanf("%i", &idAux);
+            system("cls");
+            pos=buscarPosUsuarioPorId(idAux);
+            if(arregloUsuActivos[pos].usr.eliminado==0)
+            {
+                printf("Los datos del usuario consultado son: \n");
+                imprimirUsuarioSinPass(arregloUsuActivos[pos].usr);
+            }
+            else
+            {
+                printf("El usuario buscado no existe o esta eliminado\n");
+            }
         }
-        else
+
+        if(opcion==2)
         {
-            printf("El usuario buscado esta eliminado");
+            char nombreAux[15];
+            printf("\nIngrese el nombre del usuario a consultar: ");
+            fflush(stdin);
+            gets(nombreAux);
+            pos=buscarPosicionUsuario(nombreAux);
+            if(arregloUsuActivos[pos].usr.eliminado==0)
+            {
+                printf("Los datos del usuario consultado son: \n");
+                imprimirUsuarioSinPass(arregloUsuActivos[pos].usr);
+            }
+            else
+            {
+                printf("El usuario buscado esta eliminado");
+            }
+
         }
-
-    }
-
-}
-
-
-int modificarUsuario(char archiUsu[])//Modificacion de usuario para administrador - NO se muestra el password
-{
-    int id;
-
-    system("cls");
-    printf("\n");
-    printf("\n*****************************************************");
-    printf("\n\tMODIFICACION DE USUARIOS");
-    printf("\n*****************************************************");
-    printf("\n");
-
-    printf("\nIngrese el ID del usuario que desea modificar \n");
-    fflush(stdin);
-    scanf("%i", &id);
-
-    if(validarUsuExisteArrayId(id)) // Avanza en la modificación en caso que el usuario exista
-    {
-
-        printf("\nLos datos actuales del usuario son:\n");
-        int pos=buscarPosUsuarioPorId(id); // Busca la posición del usuario en el arreglo
-        imprimirUsuarioConPass(arregloUsuActivos[pos].usr); // Muestra toda la info del usuario
-    }
-
-    else
-        printf("El usuario buscado no existe\n");
         system("pause");
-
-    return id;
-}
-
-
-int cambiarNombreUsu(char archiUsu[], int id, int pos)
-{
-    int flag=0;
-    stUsuario usuAux;
-
-    FILE *archi=fopen(archiUsu, "r+b");
-
-    if(archi==NULL)
-    {
-        printf("No se pudo abrir el archivo");
-        exit(1);
     }
 
-    else
+
+    int modificarUsuario(char archiUsu[])//Modificacion de usuario para administrador - NO se muestra el password
     {
+        int id;
 
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-        fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+        system("cls");
+        printf("\n");
+        printf("\n*****************************************************");
+        printf("\n\tMODIFICACION DE USUARIOS");
+        printf("\n*****************************************************");
+        printf("\n");
 
-        printf("Ingrese el nuevo nombre del usuario: \n"); // Se captura la info a modificar
+        printf("\nIngrese el ID del usuario que desea modificar \n");
         fflush(stdin);
-        gets(usuAux.nombreUsuario);
+        scanf("%i", &id);
+        system("cls");
+        if(validarUsuExisteArrayId(id)) // Avanza en la modificación en caso que el usuario exista
+        {
 
-        fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
+            printf("\nLos datos actuales del usuario son:\n");
+            int pos=buscarPosUsuarioPorId(id); // Busca la posición del usuario en el arreglo
+            imprimirUsuarioConPass(arregloUsuActivos[pos].usr); // Muestra toda la info del usuario
+        }
 
-        strcpy(arregloUsuActivos[pos].usr.nombreUsuario, usuAux.nombreUsuario); // Actualiza en arreglo
+        else
+            printf("El usuario buscado no existe\n");
+        Sleep(1000);
 
-        fclose(archi); // Cierra el archivo
-
-        printf("\nLa modificacion fue exitosa\n");
-
-        printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
-        fflush(stdin);
-        scanf("%i", &flag);
+        return id;
     }
 
-    return flag;
-}
 
-
-int cambiarPassUsu(char archiUsu[], int id, int pos) /// VER CON NAHUEL
-{
-    int flag=0;
-    stUsuario usuAux;
-
-    FILE *archi=fopen(archiUsu, "r+b");
-
-    if(archi==NULL)
+    int cambiarNombreUsu(char archiUsu[], int id, int pos)
     {
-        printf("No se pudo abrir el archivo");
-        exit(1);
+        int flag=0;
+        stUsuario usuAux;
+
+        FILE *archi=fopen(archiUsu, "r+b");
+
+        if(archi==NULL)
+        {
+            printf("No se pudo abrir el archivo");
+            exit(1);
+        }
+
+        else
+        {
+
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+            fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+
+            printf("Ingrese el nuevo nombre del usuario: \n"); // Se captura la info a modificar
+            fflush(stdin);
+            gets(usuAux.nombreUsuario);
+
+            fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
+
+            strcpy(arregloUsuActivos[pos].usr.nombreUsuario, usuAux.nombreUsuario); // Actualiza en arreglo
+
+            fclose(archi); // Cierra el archivo
+
+            printf("\nLa modificacion fue exitosa\n");
+
+            printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
+            fflush(stdin);
+            scanf("%i", &flag);
+        }
+
+        return flag;
     }
 
-    else
+
+    int cambiarPassUsu(char archiUsu[], int id, int pos) /// VER CON NAHUEL
     {
+        int flag=0;
+        stUsuario usuAux;
 
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-        fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+        FILE *archi=fopen(archiUsu, "r+b");
 
-        printf("Ingrese el nuevo password del usuario: \n"); // Se captura la info a modificar
-        fflush(stdin);
+        if(archi==NULL)
+        {
+            printf("No se pudo abrir el archivo");
+            exit(1);
+        }
+
+        else
+        {
+
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+            fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+
+            printf("Ingrese el nuevo password del usuario: \n"); // Se captura la info a modificar
+            fflush(stdin);
 //        scanf("%s", usuAux.pass);
 
 //        encriptacionPass(passAux, arregloUsuActivos[posId].usr.pass); /// Ver con NAHUEL -- Actualiza en arreglo?
 
-        fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
+            fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
 
 //        strcpy(arregloUsuActivos[pos].usr.pass, usuAux.pass); // Actualiza en arreglo
 
-        fclose(archi); // Cierra el archivo
+            fclose(archi); // Cierra el archivo
 
-        printf("\nLa modificacion fue exitosa\n");
+            printf("\nLa modificacion fue exitosa\n");
 
-        printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
-        fflush(stdin);
-        scanf("%i", &flag);
+            printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
+            fflush(stdin);
+            scanf("%i", &flag);
+        }
+
+        return flag;
     }
 
-    return flag;
-}
 
-
-int cambiarAnioUsu(char archiUsu[], int id, int pos)
-{
-    int flag=0;
-    stUsuario usuAux;
-
-    FILE *archi=fopen(archiUsu, "r+b");
-
-    if(archi==NULL)
+    int cambiarAnioUsu(char archiUsu[], int id, int pos)
     {
-        printf("No se pudo abrir el archivo");
-        exit(1);
+        int flag=0;
+        stUsuario usuAux;
+
+        FILE *archi=fopen(archiUsu, "r+b");
+
+        if(archi==NULL)
+        {
+            printf("No se pudo abrir el archivo");
+            exit(1);
+        }
+
+        else
+        {
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+            fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+
+            printf("Ingrese el nuevo anio de nacimiento del usuario: \n"); // Se captura la info a modificar
+            fflush(stdin);
+            scanf("%i", &usuAux.anioNacimiento);
+
+            fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
+
+            arregloUsuActivos[pos].usr.anioNacimiento=usuAux.anioNacimiento; // Actualiza en arreglo
+
+            fclose(archi); // Cierra el archivo
+
+            printf("\nLa modificacion fue exitosa\n");
+
+            printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
+            fflush(stdin);
+            scanf("%i", &flag);
+        }
+
+        return flag;
     }
 
-    else
+
+    int cambiarGeneroUsu(char archiUsu[], int id, int pos)
     {
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-        fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+        int flag=0;
+        stUsuario usuAux;
 
-        printf("Ingrese el nuevo anio de nacimiento del usuario: \n"); // Se captura la info a modificar
-        fflush(stdin);
-        scanf("%i", &usuAux.anioNacimiento);
+        FILE *archi=fopen(archiUsu, "r+b");
 
-        fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
+        if(archi==NULL)
+        {
+            printf("No se pudo abrir el archivo");
+            exit(1);
+        }
 
-        arregloUsuActivos[pos].usr.anioNacimiento=usuAux.anioNacimiento; // Actualiza en arreglo
+        else
+        {
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+            fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
 
-        fclose(archi); // Cierra el archivo
+            printf("Ingrese el nuevo genero del usuario: \n"); // Se captura la info a modificar
+            fflush(stdin);
+            scanf("%c", &usuAux.genero);
 
-        printf("\nLa modificacion fue exitosa\n");
+            fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
 
-        printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
-        fflush(stdin);
-        scanf("%i", &flag);
+            arregloUsuActivos[pos].usr.genero=usuAux.genero;// Actualiza en arreglo
+
+            fclose(archi); // Cierra el archivo
+
+            printf("\nLa modificacion fue exitosa\n");
+
+            printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
+            fflush(stdin);
+            scanf("%i", &flag); // Retorna 0 o 1 para continuar en el menu de modificación
+        }
+
+        return flag;
     }
 
-    return flag;
-}
 
-
-int cambiarGeneroUsu(char archiUsu[], int id, int pos)
-{
-    int flag=0;
-    stUsuario usuAux;
-
-    FILE *archi=fopen(archiUsu, "r+b");
-
-    if(archi==NULL)
+    int cambiarPaisUsu(char archiUsu[], int id, int pos)
     {
-        printf("No se pudo abrir el archivo");
-        exit(1);
+        int flag=0;
+        stUsuario usuAux;
+
+        FILE *archi=fopen(archiUsu, "r+b");
+
+        if(archi==NULL)
+        {
+            printf("No se pudo abrir el archivo");
+            exit(1);
+        }
+
+        else
+        {
+
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+            fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+
+            printf("Ingrese el nuevo pais del usuario: \n"); // Se captura la info a modificar
+            fflush(stdin);
+            gets(usuAux.pais);
+
+            fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
+
+            strcpy(arregloUsuActivos[pos].usr.pais, usuAux.pais); // Actualiza en arreglo
+
+            fclose(archi); // Cierra el archivo
+
+            printf("\nLa modificacion fue exitosa\n");
+
+            printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
+            fflush(stdin);
+            scanf("%i", &flag);
+        }
+
+        return flag;
     }
 
-    else
+
+    int cambiarEstadoUsu(char archiUsu[], int id, int pos)
     {
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-        fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+        int flag=0;
+        stUsuario usuAux;
 
-        printf("Ingrese el nuevo genero del usuario: \n"); // Se captura la info a modificar
-        fflush(stdin);
-        scanf("%c", &usuAux.genero);
+        FILE *archi=fopen(archiUsu, "r+b");
 
-        fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
+        if(archi==NULL)
+        {
+            printf("No se pudo abrir el archivo");
+            exit(1);
+        }
 
-        arregloUsuActivos[pos].usr.genero=usuAux.genero;// Actualiza en arreglo
+        else
+        {
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+            fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
 
-        fclose(archi); // Cierra el archivo
+            printf("Ingrese el nuevo estado para el usuario: [0] para Activo - [1] para Eliminado\n"); // Se captura la info a modificar
+            fflush(stdin);
+            scanf("%i", &usuAux.eliminado);
 
-        printf("\nLa modificacion fue exitosa\n");
+            fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
 
-        printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
-        fflush(stdin);
-        scanf("%i", &flag); // Retorna 0 o 1 para continuar en el menu de modificación
+            arregloUsuActivos[pos].usr.eliminado=usuAux.eliminado; // Actualiza en arreglo
+
+            fclose(archi); // Cierra el archivo
+
+            printf("\nLa modificacion fue exitosa\n");
+
+            printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
+            fflush(stdin);
+            scanf("%i", &flag);
+        }
+
+        return flag;
     }
 
-    return flag;
-}
 
-
-int cambiarPaisUsu(char archiUsu[], int id, int pos)
-{
-    int flag=0;
-    stUsuario usuAux;
-
-    FILE *archi=fopen(archiUsu, "r+b");
-
-    if(archi==NULL)
+    int cambiarPermisosUsu(char archiUsu[], int id, int pos)
     {
-        printf("No se pudo abrir el archivo");
-        exit(1);
+        int flag=0;
+        stUsuario usuAux;
+
+        FILE *archi=fopen(archiUsu, "r+b");
+
+        if(archi==NULL)
+        {
+            printf("No se pudo abrir el archivo");
+            exit(1);
+        }
+
+        else
+        {
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+            fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
+            fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
+
+            printf("Ingrese el nuevo nivel de permisos para el usuario: [0] para Usuario - [1] para Administrador\n"); // Se captura la info a modificar
+            fflush(stdin);
+            scanf("%d", &usuAux.admin);
+
+            fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
+
+            arregloUsuActivos[pos].usr.admin=usuAux.admin; // Actualiza en arreglo
+
+            fclose(archi); // Cierra el archivo
+
+            printf("\nLa modificacion fue exitosa\n");
+
+            printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
+            fflush(stdin);
+            scanf("%i", &flag);
+        }
+
+        return flag;
     }
-
-    else
-    {
-
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-        fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-
-        printf("Ingrese el nuevo pais del usuario: \n"); // Se captura la info a modificar
-        fflush(stdin);
-        gets(usuAux.pais);
-
-        fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
-
-        strcpy(arregloUsuActivos[pos].usr.pais, usuAux.pais); // Actualiza en arreglo
-
-        fclose(archi); // Cierra el archivo
-
-        printf("\nLa modificacion fue exitosa\n");
-
-        printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
-        fflush(stdin);
-        scanf("%i", &flag);
-    }
-
-    return flag;
-}
-
-
-int cambiarEstadoUsu(char archiUsu[], int id, int pos)
-{
-    int flag=0;
-    stUsuario usuAux;
-
-    FILE *archi=fopen(archiUsu, "r+b");
-
-    if(archi==NULL)
-    {
-        printf("No se pudo abrir el archivo");
-        exit(1);
-    }
-
-    else
-    {
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-        fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-
-        printf("Ingrese el nuevo estado para el usuario: [0] para Activo - [1] para Eliminado\n"); // Se captura la info a modificar
-        fflush(stdin);
-        scanf("%i", &usuAux.eliminado);
-
-        fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
-
-        arregloUsuActivos[pos].usr.eliminado=usuAux.eliminado; // Actualiza en arreglo
-
-        fclose(archi); // Cierra el archivo
-
-        printf("\nLa modificacion fue exitosa\n");
-
-        printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
-        fflush(stdin);
-        scanf("%i", &flag);
-    }
-
-    return flag;
-}
-
-
-int cambiarPermisosUsu(char archiUsu[], int id, int pos)
-{
-    int flag=0;
-    stUsuario usuAux;
-
-    FILE *archi=fopen(archiUsu, "r+b");
-
-    if(archi==NULL)
-    {
-        printf("No se pudo abrir el archivo");
-        exit(1);
-    }
-
-    else
-    {
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-        fread(&usuAux, sizeof(stUsuario), 1, archi); // Lectura del registro indicado
-        fseek(archi, (id-1)*sizeof(stUsuario), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
-
-        printf("Ingrese el nuevo nivel de permisos para el usuario: [0] para Usuario - [1] para Administrador\n"); // Se captura la info a modificar
-        fflush(stdin);
-        scanf("%d", &usuAux.admin);
-
-        fwrite(&usuAux, sizeof(usuAux), 1, archi); // Se actualiza en archivo
-
-        arregloUsuActivos[pos].usr.admin=usuAux.admin; // Actualiza en arreglo
-
-        fclose(archi); // Cierra el archivo
-
-        printf("\nLa modificacion fue exitosa\n");
-
-        printf("Desea Modificar otro campo? Ingresar 0 para NO - 1 para SI\n");
-        fflush(stdin);
-        scanf("%i", &flag);
-    }
-
-    return flag;
-}
 
 
 
 // ********************* FUNCIONES DE PASS
 
-void desencriptacionPass(int mEncriptada[2][5], char pass[])
-{
-    int i=0,j=0,k=0;
-
-    int inversa[2][2]= {{5,-3}, {-3,2}};   ///Matriz inversa de Matriz LLave
-
-    int  desencriptada[2][5];
-
-    ///char passbeta[10];
-
-    ///mostrarPass(2,5,mEncriptada);
-
-    ///system("pause");
-
-    for (j=0; j<5; j++)
+    void desencriptacionPass(int mEncriptada[2][5], char pass[])
     {
-        for (i=0; i<2; i++)
-        {
-            productoDeMatrices(inversa,mEncriptada,desencriptada); ///Multiplicacion por la inversa para desencriptacion
-        }
-    }
+        int i=0,j=0,k=0;
 
-    ///  mostrarPass(2,5,desencriptada);
+        int inversa[2][2]= {{5,-3}, {-3,2}};   ///Matriz inversa de Matriz LLave
 
-    ///system("pause");
+        int  desencriptada[2][5];
 
-    for(j=0; j<5; j++)     ///Conversion de matriz a arreglo
-    {
-        for(i=0; i<2; i++)
-        {
-            pass[k]=desencriptada[i][j]; ///Conversion de enteros a char
-            k++;
-        }
-    }
+        ///char passbeta[10];
 
-}
+        ///mostrarPass(2,5,mEncriptada);
 
+        ///system("pause");
 
-void productoDeMatrices(int Mat[2][2],int Pass[2][5],int Prod[2][5]) ///Funcion para Multiplicacion de Matrices
-{
-    int i,j;
-
-    for (i=0; i<2; i++)
-    {
         for (j=0; j<5; j++)
         {
-            Prod[i][j]=(Mat[i][0]*Pass[0][j]+Mat[i][1]*Pass[1][j]);
+            for (i=0; i<2; i++)
+            {
+                productoDeMatrices(inversa,mEncriptada,desencriptada); ///Multiplicacion por la inversa para desencriptacion
+            }
         }
-    }
-}
 
+        ///  mostrarPass(2,5,desencriptada);
 
-void encriptacionPass(char pass[], int mEncriptada[2][5]) ///Funcion para encriptacion de password
-{
-    int validos,j, i, k=0;
+        ///system("pause");
 
-    /// Definimos la matriz llave con la que encriptamos el password
-    /// en nuestro caso le asginamos el valor numerico de las primeras cuatro letras del nombre del grupo GUMT
-
-    int matrizLLave[2][2]= {{2,3},{3,5}};
-
-    int matrizPass[2][5];
-
-    /// Validamos la longitud del password para que en caso de ser inferior a 10 caracteres completar con espacios la matriz
-
-    validos=strlen(pass);
-
-    if (validos<10)
-    {
-        for (i=validos; i<10; i++)
-        {
-            pass[i]='\0';
-        }
-    }
-
-    if (validos==10)
-    {
-        pass[validos+1]='\0';
-    }
-
-    ///Conversion de password a Matriz para su posterior multiplicacion
-
-    for(j=0; j<5; j++)
-    {
-        for(i=0; i<2; i++)
+        for(j=0; j<5; j++)     ///Conversion de matriz a arreglo
         {
             for(i=0; i<2; i++)
             {
-                matrizPass[i][j]=pass[k];
+                pass[k]=desencriptada[i][j]; ///Conversion de enteros a char
                 k++;
+            }
+        }
+
+    }
+
+
+    void productoDeMatrices(int Mat[2][2],int Pass[2][5],int Prod[2][5]) ///Funcion para Multiplicacion de Matrices
+    {
+        int i,j;
+
+        for (i=0; i<2; i++)
+        {
+            for (j=0; j<5; j++)
+            {
+                Prod[i][j]=(Mat[i][0]*Pass[0][j]+Mat[i][1]*Pass[1][j]);
             }
         }
     }
 
 
-    ///Funciones agregadas para verificar, en caso de error, que muestre si el proceso anterior se realizo correctamente
+    void encriptacionPass(char pass[], int mEncriptada[2][5]) ///Funcion para encriptacion de password
+    {
+        int validos,j, i, k=0;
 
-    ///mostrarPass(2,5,matrizPass);
+        /// Definimos la matriz llave con la que encriptamos el password
+        /// en nuestro caso le asginamos el valor numerico de las primeras cuatro letras del nombre del grupo GUMT
 
-    ///system("pause");
+        int matrizLLave[2][2]= {{2,3},{3,5}};
+
+        int matrizPass[2][5];
+
+        /// Validamos la longitud del password para que en caso de ser inferior a 10 caracteres completar con espacios la matriz
+
+        validos=strlen(pass);
+
+        if (validos<10)
+        {
+            for (i=validos; i<10; i++)
+            {
+                pass[i]='\0';
+            }
+        }
+
+        if (validos==10)
+        {
+            pass[validos+1]='\0';
+        }
+
+        ///Conversion de password a Matriz para su posterior multiplicacion
+
+        for(j=0; j<5; j++)
+        {
+            for(i=0; i<2; i++)
+            {
+                for(i=0; i<2; i++)
+                {
+                    matrizPass[i][j]=pass[k];
+                    k++;
+                }
+            }
+        }
 
 
-    ///Encriptacion de matrices a traves de multiplicacion de password por matriz llave
+        ///Funciones agregadas para verificar, en caso de error, que muestre si el proceso anterior se realizo correctamente
 
-    productoDeMatrices(matrizLLave, matrizPass, mEncriptada);
+        ///mostrarPass(2,5,matrizPass);
 
-    ///Funciones agregadas para verificar, en caso de error, que muestre si el proceso anterior se realizo correctamente
+        ///system("pause");
 
-    ///mostrarPass(2,5,mEncriptada);
 
-    ///system("pause");
-}
+        ///Encriptacion de matrices a traves de multiplicacion de password por matriz llave
+
+        productoDeMatrices(matrizLLave, matrizPass, mEncriptada);
+
+        ///Funciones agregadas para verificar, en caso de error, que muestre si el proceso anterior se realizo correctamente
+
+        ///mostrarPass(2,5,mEncriptada);
+
+        ///system("pause");
+    }
 
 
 
