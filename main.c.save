@@ -4,12 +4,12 @@
 int main()
 {
 
-cargarArchiUsuToArreglo(ARCHIUSU);
+//cargarArchiUsuToArreglo(ARCHIUSU);
 //modificarUsuario(ARCHIUSU);
 //menuAdminUsuarios();
+//
 
 //altaUsuarios(ARCHIUSU);
-menuPrincipal();
 //system("pause");
 //bajaUsuario(ARCHIUSU);
 //system("pause");
