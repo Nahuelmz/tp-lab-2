@@ -1,6 +1,7 @@
 #include "libreria.h"
 
-void menuPrincipal(){
+void menuPrincipal()
+{
 //if(cargaInicial())
 //{
 
@@ -72,7 +73,8 @@ void loguinadm()
         system("pause");
     }
 }
-//
+
+
 void loginUser()
 {
     int login=0;
@@ -85,23 +87,32 @@ void loginUser()
     printf("\n*****************************************************");
     printf("\n");
     printf("\n\tINGRESE SU NOMBRE DE USUARIO\n\n");
+
     fflush(stdin);
     gets(nombreaux);
-    printf("\n\tINGRESE SU NOMBRE PASSWORD\n\n");
-    fflush(stdin);
-    gets(passaux);
-    login=validacionPass(arregloUsuActivos, nombreaux, passaux);
-    int pos=buscarPosicionUsuario(nombreaux);
-    if(login==1)
-    {
-        menuUsuario(arregloUsuActivos[pos].usr);
+    if(validarUsuExisteNombre(nombreaux))
+{
+    printf("\n\tINGRESE SU PASSWORD\n\n");
+        fflush(stdin);
+        gets(passaux);
+        login=validacionPass(arregloUsuActivos, nombreaux, passaux);
+        int pos=buscarPosicionUsuario(nombreaux);
+        if(login==1)
+        {
+            imprimirUsuarioConPass(arregloUsuActivos[pos].usr);
+            system("pause");
+            menuUsuario(arregloUsuActivos[pos].usr);
+        }
+        else
+        {
+            printf("Login incorrecto \n");
+        }
     }
     else
-    {
-        printf("Login incorrecto \n");
+        printf("Nombre de usuario incorrecto\n");
         system("pause");
+
     }
-}
 
 
 void menuUsuario(stUsuario usr)

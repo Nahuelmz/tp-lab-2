@@ -9,6 +9,7 @@
 #include "ctype.h"
 #include <conio.h>
 #include <windows.h>
+#include <time.h>
 
 
 // ***** ESTRUCTURAS BASICAS *****
@@ -69,8 +70,8 @@ typedef struct stPelisVistas
 // FUNCIONES DE VALIDACION
 int validarLongPass(char pass[]); // Chequea si la contrasenia supera los 10 caracteres
 int validarUserExiste(char archiUsu[], char nombreUsuario[]); // Chequea si el nombre de usuario ya existe al momento del alta
-//int validarTipoAlfanumerico(char cadena[]); // Devuelve 1 si el parámetro pasado es cadena ALFANUMERICA, 0 si no lo es
-//int validarTipoChar(char cadena[]);  // Devuelve 1 si el parámetro pasado es cadena de caracteres, 0 si no lo es
+int validarTipoAlfanumerico(char cadena[]); // Devuelve 1 si el parámetro pasado es cadena ALFANUMERICA, 0 si no lo es
+int validarTipoChar(char cadena[]);  // Devuelve 1 si el parámetro pasado es cadena de caracteres, 0 si no lo es
 int validacionPass(stCelda arregloUsuActivos[], char nombre[], char pass[]); // //Funcion de validacion de password ingresado por usuario a traves de desencriptacion de matriz codificada - Retorna true or false
 int validacionPassAdmin(char pass[]);//No se pasa por parametro el nombre del administrador ya que estos poseen un solo nombre de usuario - Funcion de validacion de password ingresado por administrador a traves de desencriptacion de matriz codificada - Retorna true or false
 int validarPeliExiste(char nombrePeli[]);
@@ -184,7 +185,7 @@ int cambiarGeneroUsu(char archiUsu[], int id, int pos);// Función invocada por e
 int cambiarPaisUsu(char archiUsu[], int id, int pos);// Función invocada por el menu "menumodif" para efectuar el cambio que solicita la misma
 int cambiarEstadoUsu(char archiUsu[], int id, int pos);// Función invocada por el menu "menumodif" para efectuar el cambio que solicita la misma
 int cambiarPermisosUsu(char archiUsu[], int id, int pos);// Función invocada por el menu "menumodif" para efectuar el cambio que solicita la misma
-
+int validarUsuExisteNombre(char nombre[]); // Función que valida si el usuario existe en el arreglo recibiendo como parámetro el nombre de usuario
 
 // ** VARIABLES GLOBALES **
 

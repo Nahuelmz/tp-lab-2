@@ -3,13 +3,13 @@
 
 int main()
 {
-
-//cargarArchiUsuToArreglo(ARCHIUSU);
-//modificarUsuario(ARCHIUSU);
-//menuAdminUsuarios();
 //
-
-//altaUsuarios(ARCHIUSU);
+cargarArchiUsuToArreglo(ARCHIUSU);
+////modificarUsuario(ARCHIUSU);
+////menuAdminUsuarios();
+//
+altaUsuarios(ARCHIUSU);
+//menuPrincipal();
 //system("pause");
 //bajaUsuario(ARCHIUSU);
 //system("pause");
@@ -17,6 +17,10 @@ int main()
 //system("pause");
 //mostrarUsuariosActivos();
 //system("pause");
+//char nombre[15];
+//gets(nombre);
+//printf("%d", validarTipoAlfanumerico(nombre));
+
 
     return 0;
 }

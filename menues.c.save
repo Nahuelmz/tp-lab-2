@@ -1,6 +1,7 @@
 #include "libreria.h"
 
-void menuPrincipal(){
+void menuPrincipal()
+{
 //if(cargaInicial())
 //{
 
@@ -72,7 +73,8 @@ void loguinadm()
         system("pause");
     }
 }
-//
+
+
 void loginUser()
 {
     int login=0;
@@ -85,23 +87,32 @@ void loginUser()
     printf("\n*****************************************************");
     printf("\n");
     printf("\n\tINGRESE SU NOMBRE DE USUARIO\n\n");
+
     fflush(stdin);
     gets(nombreaux);
-    printf("\n\tINGRESE SU NOMBRE PASSWORD\n\n");
-    fflush(stdin);
-    gets(passaux);
-    login=validacionPass(arregloUsuActivos, nombreaux, passaux);
-    int pos=buscarPosicionUsuario(nombreaux);
-    if(login==1)
-    {
-        menuUsuario(arregloUsuActivos[pos].usr);
+    if(validarUsuExisteNombre(nombreaux))
+{
+    printf("\n\tINGRESE SU PASSWORD\n\n");
+        fflush(stdin);
+        gets(passaux);
+        login=validacionPass(arregloUsuActivos, nombreaux, passaux);
+        int pos=buscarPosicionUsuario(nombreaux);
+        if(login==1)
+        {
+            imprimirUsuarioConPass(arregloUsuActivos[pos].usr);
+            sy
+            menuUsuario(arregloUsuActivos[pos].usr);
+        }
+        else
+        {
+            printf("Login incorrecto \n");
+        }
     }
     else
-    {
-        printf("Login incorrecto \n");
+        printf("Nombre de usuario incorrecto\n");
         system("pause");
+
     }
-}
 
 
 void menuUsuario(stUsuario usr)
@@ -301,7 +312,7 @@ void menuAdminUsuarios()
             break;
 
         case 3:
-            menumod(ARCHIUSU);
+            menumodif(ARCHIUSU);
             break;
 
         case 4:
@@ -374,7 +385,6 @@ void menumodif(char archiUsu[])//Menu para administrador para seleccion de campo
 
     do
     {
-        system("cls");
         printf("\n\n\n\t INGRESE EL CAMPO A MODIFICAR \n\n\t[1]- Nombre:\n\t[2]- Password:\n\t");
         printf("[3]- Anio Nacimiento:\n\t[4]- Genero:\n\t[5]- Pais:\n\t[6]- Estado en la base:\n\t[7]- Nivel de permisos:\n\t[0]- Salir\n\t");
         fflush(stdin);
