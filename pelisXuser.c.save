@@ -32,10 +32,10 @@
 //    }
 //}
 
-void actualizarPelisVistas(char archipeusu[], stCelda arregloUsuActivos[], int validosUsuActivos, stCelda arregloUsuInactivos[], int validosUsuInactivos) //Pasaje de peliculas vistas a archivo
+void actualizarPelisVistas(char ARCHIPstCelda arregloUsuActivos[], int validosUsuActivos, stCelda arregloUsuInactivos[], int validosUsuInactivos) //Pasaje de peliculas vistas a archivo
 {
     FILE*archi;
-    archi=fopen(archipeusu, "wb");
+    archi=fopen(ARCHIPELISUSU, "wb");
     int i=0, idLocal=1;
 
     if(archi)

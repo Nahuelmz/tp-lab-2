@@ -990,9 +990,3 @@ void mostrarNodoPelis(nodoListaPelicula* listaPelis)
 //        }
 //    }
 //}
-
-//void cargarPeliAUser(stCelda arregloUsuActivos[], int validos, char nombreUsuario[],nodoListaPelicula* Peli)
-//{
-//    int posicion=buscarPosicionUsuario(arregloUsuActivos, nombreUsuario);
-//    agregarNodoFinal(arregloUsuActivos[posicion].listaPelis, Peli);
-//}

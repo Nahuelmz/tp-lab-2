@@ -124,7 +124,7 @@ void menuAdminUsuarios();
 void subMenuListados();
 void loginUser();
 void loguinadm();
-void menumodif(char archiUsu[]); // Menu de modificación de usuarios
+void menumodif(char archiUsu[], int id, int pos); // Menu de modificación de usuarios
 int menuModifPelis(); //Menu para administrador para seleccion de campo a modificar
 
 
@@ -176,7 +176,7 @@ void mostrarUsuariosActivos(); // Muestra lista de usuarios activos con sus resp
 int buscarPosicionUsuario(char nombreUsuario[]); // Retorna la posicion en el arreglo del usuario buscando por nombre de usuario
 int buscarPosUsuarioPorId(int id); // Retorna la posicion en el arreglo del usuario buscando por el ID del usuario
 void consultarUsuario(); // Muestra por pantalla los datos del usuario consultado por ID o por nombre
-int modificarUsuario(char archiUsu[]); // Solicita el id del usuario y verifica si existe. De existir, continua con el menu "menumodif"
+void modificarUsuario(char archiUsu[]); // Solicita el id del usuario y verifica si existe. De existir, continua con el menu "menumodif"
 int cambiarNombreUsu(char archiUsu[], int id, int pos); // Función invocada por el menu "menumodif" para efectuar el cambio que solicita la misma
 int cambiarPassUsu(char archiUsu[], int id, int pos);// Función invocada por el menu "menumodif" para efectuar el cambio que solicita la misma
 int cambiarAnioUsu(char archiUsu[], int id, int pos);// Función invocada por el menu "menumodif" para efectuar el cambio que solicita la misma
