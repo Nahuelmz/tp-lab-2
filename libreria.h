@@ -105,17 +105,13 @@ void altaPelicula();
 void bajaPelicula();
 void mostrarPeliParaModif();
 void consultaPeliAdmin();
-void insertar(stPelicula arregloPelis[], int i);
-int cargarArrayPeliculas(stPelicula arregloPelis[]);
-void ordenarGenero ();
+void insertar(stPelicula arregloPelis[], int posicion);
+int cargarArregloPeliculas(stPelicula arregloPelis[]);
+void ordenarGenero();
 void ordenarTitulo();
-//int verPelicula();
-void ordenacionSeleccion(stPelicula arregloPelis[], int validos);
-int posicionMenor(stPelicula arregloPelis[], int pos, int validos);
-
-
-
-
+void ordenacionSeleccion(stPelicula arregloPelis[], int validosPelis);
+int posicionMenor(stPelicula arregloPelis[], int pos, int validosPelis);
+int validarPeliExiste(char nombrePelicula[]);
 
 // FUNCIONES DE SUBMENUES // Menu principal en main
 void menuUsuario(stUsuario);
@@ -132,11 +128,11 @@ int menuModifPelis(); //Menu para administrador para seleccion de campo a modifi
 // FUNCIONES AUXILIARES //
 
 void PelisxUsuarioArchivoToADL(stCelda arregloUsu[], int idUsuario, int posicion);//Carga de Peliculas vistas por usuario a arreglo de listas
-void actualizarPelisVistas(char archipeusu[], stCelda arregloUsuActivos[], int validosUsuActivos, stCelda arregloUsuInactivos[], int validosUsuInactivos);//Carga de peliculas vistas a archivo
+void actualizarPelisVistas(stCelda arregloUsuActivos[]);//Carga de peliculas vistas a archivo
 void mostrarPeliculas(char archiPeli[]); // Muestra los datos ingresados para ir verificando el funcionamiento del programa
-void mostrarPass(int f,int c,int M[f][c]); //Funcion para mostrar matrices por pantalla (utilizada para verificacion de procesos)
-void mostrarArrayPeliculas(stPelicula array[], int validos); // Usada para ver por pantalla y verificar el funcionamiento de funciones
-
+void mostrarPass(int M[f][c], int f,int c); //Funcion para mostrar matrices por pantalla (utilizada para verificacion de procesos)
+void mostrarArregloPelis(stPelicula arregloPelis[], int validosPelis); // Usada para ver por pantalla y verificar el funcionamiento de funciones
+int cantRegistrosTotales();
 
 // ***** FUNCIONES DE LISTAS ******
 
@@ -157,12 +153,15 @@ nodoArbolPelicula * insertaNodoArbol(nodoArbolPelicula * Arbol,stPelicula Pelicu
 void preOrder(nodoArbolPelicula*Arbol);
 void inOrder(nodoArbolPelicula*Arbol);
 void postOrder(nodoArbolPelicula*Arbol);
-nodoArbolPelicula*buscarPeliculaID(nodoArbolPelicula*Arbol,stPelicula Pelicula);
+nodoArbolPelicula*buscarPeliculaID(nodoArbolPelicula*Arbol,int id);
 nodoArbolPelicula*borrarNodoArbolPeli(nodoArbolPelicula*Arbol,stPelicula P);
 
 // ***** FUNCIONES TP2 PELICULAS ******
 stPelicula verPelicula();
-int buscarPelixNombre(char PeliBuscada[]);
+void cargarPeliAUser(stCelda arregloUsuActivos[], char nombreUsuario[],nodoListaPelicula* Peli);
+int validarPeliExiste(char nombrePeli[]);
+int buscarPelixNombre(nodoArbolPelicula* ArbolPelis, char PeliBuscada[]);
+
 
 // ***** FUNCIONES DE TP2 USUARIOS *****
 int cantUsuariosActivos(char archiUsu[]); // Cuenta la cantidad inicial de usuarios activos en el archivo

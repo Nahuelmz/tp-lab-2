@@ -31,11 +31,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="auxUsuarios.txt" />
 		<Unit filename="cargaInicial.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="libreria.h" />
+		<Unit filename="libreria.h">
+			<Option compile="1" />
+			<Option link="1" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

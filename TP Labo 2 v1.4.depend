@@ -88,3 +88,39 @@
 1541369962 source:c:\users\vugob\desktop\tp-lab-2-master 4-11\usuarios.c
 	"libreria.h"
 
+1541457939 source:c:\users\nmz\desktop\tp-lab-2-master\main.c
+	"libreria.h"
+
+1541462158 c:\users\nmz\desktop\tp-lab-2-master\libreria.h
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"ctype.h"
+	<conio.h>
+	<windows.h>
+	<time.h>
+
+1541458300 source:c:\users\nmz\desktop\tp-lab-2-master\peliculas.c
+	"libreria.h"
+
+1541361294 source:c:\users\nmz\desktop\tp-lab-2-master\cargainicial.c
+	"libreria.h"
+
+1541457505 source:c:\users\nmz\desktop\tp-lab-2-master\menues.c
+	"libreria.h"
+
+1541461764 source:c:\users\nmz\desktop\tp-lab-2-master\usuarios.c
+	"libreria.h"
+
+1541383924 source:c:\users\nmz\desktop\tp-lab-2-master\pelisxuser.c
+	"libreria.h"
+
+1541461764 source:c:\users\nmz\desktop\tp-lab-2-master\libreria.h
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"ctype.h"
+	<conio.h>
+	<windows.h>
+	<time.h>
+

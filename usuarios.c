@@ -196,7 +196,7 @@ int validacionPassAdmin(char pass[]) ///No se pasa por parametro el nombre del a
 }
 
 
-void mostrarPass(int f,int c,int M[f][c]) //Funcion para mostrar matrices por pantalla (utilizada para verificacion de procesos)
+void mostrarPass(int M[f][c], int f, int c) //Funcion para mostrar matrices por pantalla (utilizada para verificacion de procesos)
 {
     int i, j;
 
@@ -1115,11 +1115,11 @@ void altaUsuarios(char archiUsu[])// Funcion general de alta de usuarios
 
         int  desencriptada[2][5];
 
-        ///char passbeta[10];
+        //char passbeta[10];
 
-        ///mostrarPass(2,5,mEncriptada);
+        //mostrarPass(2,5,mEncriptada);
 
-        ///system("pause");
+        //system("pause");
 
         for (j=0; j<5; j++)
         {
@@ -1129,9 +1129,9 @@ void altaUsuarios(char archiUsu[])// Funcion general de alta de usuarios
             }
         }
 
-        ///  mostrarPass(2,5,desencriptada);
+        //  mostrarPass(2,5,desencriptada);
 
-        ///system("pause");
+        //system("pause");
 
         for(j=0; j<5; j++)     ///Conversion de matriz a arreglo
         {
@@ -1204,7 +1204,7 @@ void altaUsuarios(char archiUsu[])// Funcion general de alta de usuarios
 
         ///Funciones agregadas para verificar, en caso de error, que muestre si el proceso anterior se realizo correctamente
 
-        ///mostrarPass(2,5,matrizPass);
+        //mostrarPass(2,5,matrizPass);
 
         ///system("pause");
 
@@ -1215,7 +1215,7 @@ void altaUsuarios(char archiUsu[])// Funcion general de alta de usuarios
 
         ///Funciones agregadas para verificar, en caso de error, que muestre si el proceso anterior se realizo correctamente
 
-        ///mostrarPass(2,5,mEncriptada);
+        //mostrarPass(2,5,mEncriptada);
 
         ///system("pause");
     }

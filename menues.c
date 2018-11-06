@@ -91,8 +91,8 @@ void loginUser()
     fflush(stdin);
     gets(nombreaux);
     if(validarUsuExisteNombre(nombreaux))
-{
-    printf("\n\tINGRESE SU PASSWORD\n\n");
+    {
+        printf("\n\tINGRESE SU PASSWORD\n\n");
         fflush(stdin);
         gets(passaux);
         login=validacionPass(arregloUsuActivos, nombreaux, passaux);
@@ -109,10 +109,13 @@ void loginUser()
         }
     }
     else
+    {
         printf("Nombre de usuario incorrecto\n");
         system("pause");
-
     }
+
+
+}
 
 
 void menuUsuario(stUsuario usr)
@@ -150,17 +153,14 @@ void menuUsuario(stUsuario usr)
             system("pause");
             break;
 
-//        case 2:
-//            subMenuListados();
-//            break;
+        case 2:
+            subMenuListados();
+            break;
 
-//        case 3:
-//            stPelicula auxPeli=verPelicula(); ///Revisar funciones ABM peliculas
-//            if(auxPeli)
-//            {
-////                cargarPeliAUser(arregloUsuActivos, nombreUsuario, crearNodoPeli(auxPeli)); ///Verificar validaciones
-//            }
-//            break;
+        case 3:
+            verPelicula(usr); ///Revisar funciones ABM peliculas
+
+            break;
 
         case 4:
 
@@ -213,68 +213,68 @@ void menuAdmin()
     }
     while(repetir==1);
 }
-//
-//
-////void menuAdminPelis()
-////{
-////
-////    int opcion=0,repetir=0;
-////    do
-////    {
-////        system("cls");
-////        printf("\n");
-////        printf("\n*****************************************************");
-////        printf("\n\tMENU DE GESTION DE PELICULAS");
-////        printf("\n*****************************************************");
-////        printf("\n");
-////        printf("\n\t 1) ALTA DE PELICULAS");
-////        printf("\n\t 2) BAJA DE PELICULAS");
-////        printf("\n\t 3) MODIFICACION DE PELICULAS");
-////        printf("\n\t 4) CONSULTA DE PELICULAS");
-////        printf("\n\t 5) LISTADOS DE PELICULAS");
-////        printf("\n\t 0) SALIR DEL PROGRAMA");
-////        printf("\n\n\t INGRESE SU OPCION: ");
-////        scanf("%i", &opcion);
-////
-////        switch(opcion)
-////        {
-////
-////        case 0:
-////            repetir=0;
-////            break;
-////
-////        case 1:
-////            altaPelicula();
-////            repetir=1;
-////            break;
-////
-////        case 2:
-////            bajaPelicula();
-////            repetir=1;
-////            break;
-////
-////        case 3:
-////            mostrarPeliParaModif();
-////            repetir=1;
-////            break;
-////
-////        case 4:
-////            consultaPeliAdmin();
-////            repetir=1;
-////            break;
-////
-////        case 5:
-////            subMenuListados();
-////            repetir=1;
-////            break;
-////
-////        default:
-////            exit(1);
-////        }
-////    }
-////    while(repetir==1);
-////}
-//
+
+
+void menuAdminPelis()
+{
+
+    int opcion=0,repetir=0;
+    do
+    {
+        system("cls");
+        printf("\n");
+        printf("\n*****************************************************");
+        printf("\n\tMENU DE GESTION DE PELICULAS");
+        printf("\n*****************************************************");
+        printf("\n");
+        printf("\n\t 1) ALTA DE PELICULAS");
+        printf("\n\t 2) BAJA DE PELICULAS");
+        printf("\n\t 3) MODIFICACION DE PELICULAS");
+        printf("\n\t 4) CONSULTA DE PELICULAS");
+        printf("\n\t 5) LISTADOS DE PELICULAS");
+        printf("\n\t 0) SALIR DEL PROGRAMA");
+        printf("\n\n\t INGRESE SU OPCION: ");
+        scanf("%i", &opcion);
+
+        switch(opcion)
+        {
+
+        case 0:
+            repetir=0;
+            break;
+
+        case 1:
+            altaPelicula();
+            repetir=1;
+            break;
+
+        case 2:
+            bajaPelicula();
+            repetir=1;
+            break;
+
+        case 3:
+            mostrarPeliParaModif();
+            repetir=1;
+            break;
+
+        case 4:
+            consultaPeliAdmin();
+            repetir=1;
+            break;
+
+        case 5:
+            subMenuListados();
+            repetir=1;
+            break;
+
+        default:
+            exit(1);
+        }
+    }
+    while(repetir==1);
+}
+
 void menuAdminUsuarios()
 {
 
@@ -332,47 +332,47 @@ void menuAdminUsuarios()
 }
 
 
-//void subMenuListados()
-//{
-//    int opcionlistados=0;
-//    char control='s';
-//    do
-//    {
-//        system("cls");
-//        printf("\n");
-//        printf("\n*****************************************************");
-//        printf("\n\t L I S T A D O S\t\t");
-//        printf("\n*****************************************************");
-//        printf("\n");
-//        printf("\n\t 1) ORDENADOS POR TITULO");
-//        printf("\n\t 2) ORDENADOS POR GENERO");
-//        printf("\n\t 0) VOLVER AL MENU ANTERIOR");
-//        scanf("%i", &opcionlistados);
-//
-//        switch(opcionlistados)
-//        {
-//
-//        case 1:
-//
-//            ordenarTitulo();
-//            printf("\n\t Desea ver otro listado? s/n : \n");
-//            scanf("%c", &control);
-//            break;
-//
-//        case 2:
-//
-//            ordenarGenero();
-//            printf("\n\t Desea ver otro listado? s/n : \n");
-//            scanf("%c", &control);
-//            break;
-//
-//        }
-//
-//    }
-//    while(control=='s');
-//}
-//
-//
+void subMenuListados()
+{
+    int opcionlistados=0;
+    char control='s';
+    do
+    {
+        system("cls");
+        printf("\n");
+        printf("\n*****************************************************");
+        printf("\n\t L I S T A D O S\t\t");
+        printf("\n*****************************************************");
+        printf("\n");
+        printf("\n\t 1) ORDENADOS POR TITULO");
+        printf("\n\t 2) ORDENADOS POR GENERO");
+        printf("\n\t 0) VOLVER AL MENU ANTERIOR");
+        scanf("%i", &opcionlistados);
+
+        switch(opcionlistados)
+        {
+
+        case 1:
+
+            ordenarTitulo();
+            printf("\n\t Desea ver otro listado? s/n : \n");
+            scanf("%c", &control);
+            break;
+
+        case 2:
+
+            ordenarGenero();
+            printf("\n\t Desea ver otro listado? s/n : \n");
+            scanf("%c", &control);
+            break;
+
+        }
+
+    }
+    while(control=='s');
+}
+
+
 
 /// MODIFICADO VALE - NO tocar por favor
 void menumodif(char archiUsu[])//Menu para administrador para seleccion de campo a modificar
@@ -428,23 +428,23 @@ void menumodif(char archiUsu[])//Menu para administrador para seleccion de campo
 }
 
 
-//
-//int menuModifPelis()//Menu para administrador para seleccion de campo a modificar
-//{
-//    int resp;
-//
-//    do
-//    {
-//
-//        system("CLS");
-//        printf("\n\n\n\t INGRESE EL CAMPO A MODIFICAR \n\n\t[1]- Nombre:\n\t[2]- Director:\n\t");
-//        printf("[3]- Anio de Filmacion:\n\t[4]- Genero:\n\t[5]- Pais de origen:\n\t[6]- Valoracion:\n\t[7]- Clasificacion:\n\t[8]- Estado en catalogo:\n\t[0]- Salir\n\t");
-//        scanf("%i", &resp);
-//
-//    }
-//    while (0>resp && resp <6);
-//
-//    return resp;
-//}
+
+int menuModifPelis()//Menu para administrador para seleccion de campo a modificar
+{
+    int resp;
+
+    do
+    {
+
+        system("CLS");
+        printf("\n\n\n\t INGRESE EL CAMPO A MODIFICAR \n\n\t[1]- Nombre:\n\t[2]- Director:\n\t");
+        printf("[3]- Anio de Filmacion:\n\t[4]- Genero:\n\t[5]- Pais de origen:\n\t[6]- Valoracion:\n\t[7]- Clasificacion:\n\t[8]- Estado en catalogo:\n\t[0]- Salir\n\t");
+        scanf("%i", &resp);
+
+    }
+    while (0>resp && resp <6);
+
+    return resp;
+}
 
 
