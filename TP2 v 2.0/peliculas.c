@@ -538,7 +538,7 @@ void bajaPelicula()//Elimina peliculas pasando usuario.eliminado a valor verdade
     }
 }
 
-void mostrarPeliParaModif()//Modificacion de peliculas para administrador
+void mostrarPeliParaModif(nodoArbolPelicula*ArbolPelis)//Modificacion de peliculas para administrador
 {
     FILE *archi = fopen(ARCHIPELI,"rb+");
     stPelicula aux;
@@ -593,7 +593,7 @@ void mostrarPeliParaModif()//Modificacion de peliculas para administrador
 
             do
             {
-                a=menuModifPelis();
+                a=menuModifPelis(ArbolPelis);
 
                 fseek(archi, (id-1)*sizeof(stPelicula), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
                 fread(&aux, sizeof(aux), 1, archi); // Lectura del registro indicado
@@ -684,6 +684,7 @@ void mostrarPeliParaModif()//Modificacion de peliculas para administrador
 
                 fseek(archi, (id-1)*sizeof(stPelicula), SEEK_SET); // Se lleva el cursor al principio del archivo para moverse desde allí
                 fwrite(&aux, sizeof(aux), 1, archi); // Lectura del registro indicado
+                modificarPeliEnArbol(ArbolPelis, aux);
 
             }
             while(a!=0&&control=='s'); // Mientras se desee continuar
@@ -1022,23 +1023,29 @@ void mostrarPeliculas(char archiPeli[]) // Funcion auxiliar usada para chequear 
     }
 }
 
-void mostrarArrayPeliculas(stPelicula array[], int validos)
+void modificarPeliEnArbol(nodoArbolPelicula * ArbolPelis,stPelicula PeliculaToModificar)
 {
-    int i;
-    printf("El listado actual de peliculas existentes es el siguiente:\n\n");
-    for (i=0; i<validos; i++)
-    {
-        if(array[i].eliminado!=1)
-        {
-            printf("ID Pelicula: %i \n", array[i].idPelicula);
-            printf("Pelicula: %s \n", array[i].nombrePelicula);
-            printf("Director: %s \n", array[i].director);
-            printf("Genero: %s \n", array[i].genero);
-            printf("Pais: %s \n", array[i].pais);
-            printf("Año: %i \n", array[i].anio);
-            printf("Valoracion: %i \n", array[i].valoracion);
-            printf("Calificacion: %i \n", array[i].pm);
-            printf("\n \n");
-        }
-    }
+    nodoArbolPelicula * NodoAux=buscarPeliculaID(ArbolPelis, PeliculaToModificar.idPelicula);
+    NodoAux->p=PeliculaToModificar;
 }
+
+//void mostrarArrayPeliculas(stPelicula array[], int validos)
+//{
+//    int i;
+//    printf("El listado actual de peliculas existentes es el siguiente:\n\n");
+//    for (i=0; i<validos; i++)
+//    {
+//        if(array[i].eliminado!=1)
+//        {
+//            printf("ID Pelicula: %i \n", array[i].idPelicula);
+//            printf("Pelicula: %s \n", array[i].nombrePelicula);
+//            printf("Director: %s \n", array[i].director);
+//            printf("Genero: %s \n", array[i].genero);
+//            printf("Pais: %s \n", array[i].pais);
+//            printf("Año: %i \n", array[i].anio);
+//            printf("Valoracion: %i \n", array[i].valoracion);
+//            printf("Calificacion: %i \n", array[i].pm);
+//            printf("\n \n");
+//        }
+//    }
+//}

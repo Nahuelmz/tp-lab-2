@@ -3,7 +3,8 @@
 
 int main()
 {
-    menuPrincipal(ARCHIUSU);
+    nodoArbolPelicula*ArbolPelis=inicArbol();
+    menuPrincipal(ARCHIUSU, ArbolPelis);
 
     return 0;
 }

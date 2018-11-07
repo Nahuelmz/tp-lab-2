@@ -3,7 +3,7 @@
 /// OJO PASAR POR PARAMETRO TODAS LAS VARIABLES NECESARIAS
 
 
-void menuPrincipal(char archiUsu[])
+void menuPrincipal(char archiUsu[],nodoArbolPelicula*ArbolPelis)
 {
 
     stCelda* arregloUsuActivos=NULL; // Se manejan con punteros por ser estructura dinámica
@@ -41,7 +41,7 @@ void menuPrincipal(char archiUsu[])
             loginUser(arregloUsuActivos, validos);
             break;
         case 3:
-            loguinadm(arregloUsuActivos, validos);
+            loguinadm(arregloUsuActivos, validos, ArbolPelis);
             break;
         default:
             exit(1);
@@ -59,7 +59,7 @@ void menuPrincipal(char archiUsu[])
 ////                                                  FUNCIONES DE SUBMENUES / LOGIN
 ////***********************************************************************************************************************************//
 //
-void loguinadm(stCelda* arregloUsuActivos, int validos)
+void loguinadm(stCelda* arregloUsuActivos, int validos, nodoArbolPelicula*ArbolPelis)
 {
     int login=0;
     char passaux[11];
@@ -75,7 +75,7 @@ void loguinadm(stCelda* arregloUsuActivos, int validos)
     login=validacionPassAdmin(passaux);
     if(login==1)
     {
-        menuAdmin(arregloUsuActivos,validos);
+        menuAdmin(arregloUsuActivos,validos,ArbolPelis);
     }
     else
     {
@@ -184,7 +184,7 @@ void menuUsuario(stUsuario usr)
 }
 
 
-void menuAdmin(stCelda* arregloUsuActivos, int validos)
+void menuAdmin(stCelda* arregloUsuActivos, int validos, nodoArbolPelicula*ArbolPelis)
 {
 
     int opcion=0,repetir=1;
@@ -209,9 +209,9 @@ void menuAdmin(stCelda* arregloUsuActivos, int validos)
             repetir=0;
             break;
 
-//        case 1:
-//            menuAdminPelis();
-//            break;
+        case 1:
+            menuAdminPelis(ArbolPelis);
+            break;
 
         case 2:
             menuAdminUsuarios(arregloUsuActivos, validos);
@@ -225,7 +225,7 @@ void menuAdmin(stCelda* arregloUsuActivos, int validos)
 }
 
 
-void menuAdminPelis()
+void menuAdminPelis(nodoArbolPelicula * ArbolPelis)
 {
 
     int opcion=0,repetir=0;
@@ -264,7 +264,7 @@ void menuAdminPelis()
             break;
 
         case 3:
-            mostrarPeliParaModif();
+            mostrarPeliParaModif(ArbolPelis);
             repetir=1;
             break;
 
@@ -442,7 +442,7 @@ void menumodif(char archiUsu[],stCelda*arregloUsuActivos, int validos)//Menu par
 
 
 
-int menuModifPelis()//Menu para administrador para seleccion de campo a modificar
+int menuModifPelis(nodoArbolPelicula*ArbolPelis)//Menu para administrador para seleccion de campo a modificar
 {
     int resp;
 

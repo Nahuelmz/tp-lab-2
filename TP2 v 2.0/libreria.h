@@ -102,7 +102,7 @@ void desencriptacionPass(int mEncriptada[2][5], char pass[]);//Desencripta el pa
 // FUNCIONES QUE TRABAJAN SOBRE PELICULAS
 void altaPelicula();
 void bajaPelicula();
-void mostrarPeliParaModif();
+void mostrarPeliParaModif(nodoArbolPelicula*ArbolPelis);
 void consultaPeliAdmin();
 void insertar(stPelicula arregloPelis[], int posicion);
 int cargarArregloPeliculas(stPelicula arregloPelis[]);
@@ -119,9 +119,9 @@ void menuAdminPelis();
 void menuAdminUsuarios(stCelda* arregloUsuActivos, int validos);
 void subMenuListados();
 void loginUser(stCelda* arregloUsuActivos, int validos);
-void loguinadm(stCelda* arregloUsuActivos, int validos);
+void loguinadm(stCelda* arregloUsuActivos, int validos, nodoArbolPelicula*ArbolPelis);
 void menumodif(char archiUsu[],stCelda* arregloUsuActivos, int validos); // Menu de modificación de usuarios
-int menuModifPelis(); //Menu para administrador para seleccion de campo a modificar
+int menuModifPelis(nodoArbolPelicula*ArbolPelis); //Menu para administrador para seleccion de campo a modificar
 
 
 // FUNCIONES AUXILIARES //
@@ -161,6 +161,7 @@ stPelicula verPelicula();
 void cargarPeliAUser(stCelda arregloUsuActivos[],int validos, char nombreUsuario[],nodoListaPelicula* Peli);
 int validarPeliExiste(char nombrePeli[]);
 int buscarPelixNombre(nodoArbolPelicula* ArbolPelis, char PeliBuscada[]);
+void modificarPeliEnArbol(nodoArbolPelicula * ArbolPelis,stPelicula PeliculaToModificar);
 
 
 // ***** FUNCIONES DE TP2 USUARIOS *****
