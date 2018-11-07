@@ -1,0 +1,53 @@
+# depslib dependency file v1.0
+1541467064 source:c:\users\valeria\desktop\tp2 -v2.0\tp2 v 2.0\cargainicial.c
+	"libreria.h"
+
+1541542792 c:\users\valeria\desktop\tp2 -v2.0\tp2 v 2.0\libreria.h
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"ctype.h"
+	<conio.h>
+	<windows.h>
+
+1541542129 source:c:\users\valeria\desktop\tp2 -v2.0\tp2 v 2.0\main.c
+	"libreria.h"
+
+1541543301 source:c:\users\valeria\desktop\tp2 -v2.0\tp2 v 2.0\menues.c
+	"libreria.h"
+
+1541540983 source:c:\users\valeria\desktop\tp2 -v2.0\tp2 v 2.0\peliculas.c
+	"libreria.h"
+
+1541536139 source:c:\users\valeria\desktop\tp2 -v2.0\tp2 v 2.0\pelisxuser.c
+	"libreria.h"
+
+1541542792 source:c:\users\valeria\desktop\tp2 -v2.0\tp2 v 2.0\usuarios.c
+	"libreria.h"
+
+1541525534 source:c:\users\nmz\desktop\tp2 v 2.0\cargainicial.c
+	"libreria.h"
+
+1541555425 c:\users\nmz\desktop\tp2 v 2.0\libreria.h
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"ctype.h"
+	<conio.h>
+	<windows.h>
+
+1541525536 source:c:\users\nmz\desktop\tp2 v 2.0\main.c
+	"libreria.h"
+
+1541525536 source:c:\users\nmz\desktop\tp2 v 2.0\menues.c
+	"libreria.h"
+
+1541525536 source:c:\users\nmz\desktop\tp2 v 2.0\peliculas.c
+	"libreria.h"
+
+1541525534 source:c:\users\nmz\desktop\tp2 v 2.0\pelisxuser.c
+	"libreria.h"
+
+1541525538 source:c:\users\nmz\desktop\tp2 v 2.0\usuarios.c
+	"libreria.h"
+
